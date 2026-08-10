@@ -53,12 +53,11 @@ Team full names/rosters key off the **team's official ID** (abbr), not display o
 - Favicon was deliberately skipped (the generated `.ico` is a large binary blob, not worth the token cost to inline into a manual deploy payload). Add one later if desired.
 
 ## Deployment
-No git repo — deploys go straight through the `deploy_to_vercel` MCP tool (team ID
-`team_PAR4L0JjYudA0RQhdZ7bU6Yd`, project `nba1v1`), which takes an inline file list, not a git
-push. When redeploying after code changes, you must re-read and re-inline **every** changed
-file into that call — there's no incremental diff mechanism. `src/data/allPlayers.json` and
-`teams.json` rarely change; the components do. Skip `package-lock.json`, `scripts/`,
-`node_modules/`, and the markdown docs — they're not needed at runtime.
+Git-connected: local repo pushes to `github.com/tonynelson33/nba1v1` (`main` branch), which
+Vercel's GitHub integration auto-builds and deploys (team ID `team_PAR4L0JjYudA0RQhdZ7bU6Yd`,
+project `nba1v1`). Just `git add` / `git commit` / `git push` — no more manual file-upload
+deploys via the `deploy_to_vercel` MCP tool, and no need to re-inline the whole app (including
+the ~55KB data files) on every change.
 
 ## What's intentionally out of scope (don't build unless asked)
 - Accounts, login, server-saved brackets, shareable-link/URL state.
