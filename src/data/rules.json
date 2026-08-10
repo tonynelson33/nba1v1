@@ -1,0 +1,63 @@
+{
+  "title": "General Game Rules",
+  "sections": [
+    {
+      "heading": "Game Duration",
+      "items": [
+        "Each match is played to 11 points OR up to 10 minutes, whichever comes first.",
+        "If tied after 10 minutes, next point wins."
+      ]
+    },
+    {
+      "heading": "Possession",
+      "items": [
+        "It’s “make-it, take-it” — the player who scores retains possession for the next play.",
+        "Only one shot per possession.",
+        "Ball must be checked to start every possession.",
+        "Defender must be inside the 3pt line when checking the ball with a pass.  Offensive player must receive the ball in a standing position directly behind the 3pt line.",
+        "Defense gets possession on any jump ball scenario (tie up, ball stuck, referee doesnt know who it was out on)."
+      ]
+    },
+    {
+      "heading": "Clock",
+      "items": [
+        "The game uses a running clock (clock doesn’t stop)."
+      ]
+    },
+    {
+      "heading": "Shot Clock",
+      "items": [
+        "A 7-second shot clock is used on every possession to keep pace fast.",
+        "If the ball is deflected out of bounds, the shot clock will not reset and must be rechecked above the 3pt line."
+      ]
+    },
+    {
+      "heading": "Scoring",
+      "items": []
+    },
+    {
+      "heading": "Traditional scoring applies",
+      "items": [
+        "2-point baskets count as 2 points",
+        "3-point baskets count as 3 points",
+        "Receive 1 free throw for fouls on a made basket"
+      ]
+    },
+    {
+      "heading": "Fouls",
+      "items": [
+        "Unlimited personal fouls: Players keep playing even after multiple fouls.",
+        "Shooting Fouls: When fouled on a shot, the player gets one free throw worth the value of the attempted shot.",
+        "Consecutive Non-Shooting Fouls: If a defender commits consecutive non-shooting fouls in the same 7 second possession, the offensive player gets one point AND possession.",
+        "Offensive Fouls: Turnover."
+      ]
+    },
+    {
+      "heading": "Other",
+      "items": [
+        "If a referee deems a player is stalling between possessions he may give a warning and award 1pt for every warning thereafter.",
+        "In the Semifinals and Finals, players get one 30 second timeout.  They can only be used between possessions during a dead ball."
+      ]
+    }
+  ]
+}
