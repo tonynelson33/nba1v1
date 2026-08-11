@@ -176,11 +176,16 @@ export function BracketApp({
                 and it exactly matches what the scaled inner content paints into, so
                 there's no dead space and no clipping either. `bracketRef` (used for
                 the html2canvas capture) stays on the *inner*, untransformed div —
-                its own `scrollWidth` reports the true 1660px content size
-                regardless of the outer wrapper or the scale applied to it, so
-                shared images are always full resolution. If the grid's fixed
-                dimensions ever change, recompute 830px (half of the new total). */}
-            <div className="w-[830px] sm:w-fit">
+                its own `scrollWidth`/`scrollHeight` report the true full-size
+                content regardless of the outer wrapper or the scale applied to it,
+                so shared images are always full resolution. Height needs the exact
+                same explicit treatment as width, for the exact same reason — the
+                first version of this only constrained width, and the grid's full
+                ~942px unscaled height (vs. ~471px actually visible) got reserved
+                below it in the page's normal vertical flow, leaving a large empty
+                gap before "Pick Your Players". If the grid's fixed dimensions ever
+                change, recompute both 830px and 471px (half of the new totals). */}
+            <div className="h-[471px] w-[830px] sm:h-fit sm:w-fit">
               <div ref={bracketRef} className="w-fit origin-top-left scale-50 sm:scale-100">
                 <BracketGrid rounds={rounds} onPickWinner={handlePickWinner} />
               </div>
