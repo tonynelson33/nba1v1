@@ -119,12 +119,15 @@ export function BracketApp({
           w-fit` clamps to flush-left rather than centering-with-overflow when the
           bracket is wider than its container, so there's no start-side overflow to
           strand.
-          `touch-action` is explicit (`pan-x pinch-zoom`, not the default `auto`) so
-          this scroll box only ever claims horizontal single-finger panning — leaving
-          two-finger pinch-zoom unambiguously free for the browser to handle as a
-          page-level zoom instead of any element potentially treating it as its own
-          gesture. */}
-      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6 [touch-action:pan-x_pinch-zoom]">
+          Deliberately no `touch-action` override here (leave it at the default `auto`)
+          — a narrower value like `pan-x` was tried to "protect" pinch-zoom but instead
+          blocked vertical panning entirely, since it explicitly excludes `pan-y`: with
+          only horizontal scroll available inside this box, a vertical swipe had
+          nowhere to go and couldn't bubble up to scroll the page. `auto` correctly
+          lets the browser sort it out natively — horizontal swipe scrolls this box,
+          vertical swipe bubbles to scroll the page, pinch-zoom works — with zero
+          custom logic needed. */}
+      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
           <div className="relative mx-auto w-fit">
             {/* Right-aligned to the bracket's own right edge (this wrapper is `w-fit`,
