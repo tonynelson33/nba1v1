@@ -5,7 +5,7 @@ import type { Player, PlayerTuple, Team } from "@/lib/types";
 import { deriveBracket, seedPlayers } from "@/lib/seeding";
 import { hydratePlayers } from "@/lib/players";
 import { RosterPicker } from "./RosterPicker";
-import { Bracket } from "./Bracket";
+import { BracketPrizes, BracketGrid } from "./Bracket";
 import { RulesSection } from "./RulesSection";
 import { ShareImageButton } from "./ShareImageButton";
 import { CollapsibleSection } from "./CollapsibleSection";
@@ -104,6 +104,22 @@ export function BracketApp({
         </header>
       </div>
 
+      {/* Mobile-only (hidden at sm+): prize boxes + share button live here, in normal
+          page flow like the header, so they stay put ("frozen") while only the grid
+          below scrolls sideways. Desktop keeps its own copy of these, positioned
+          inline with the grid inside the scrollable section (see below) — kept as a
+          separate render rather than reused across breakpoints because one has to
+          live outside the scroll container and the other inside it; CSS alone can't
+          relocate an element across a different scrolling ancestor. */}
+      {bracketReady && (
+        <div className="mx-auto mb-4 max-w-[1500px] px-4 sm:hidden">
+          <div className="flex flex-col items-center gap-3">
+            <BracketPrizes />
+            <ShareImageButton targetRef={bracketRef} />
+          </div>
+        </div>
+      )}
+
       {/* Not nested in the max-w-[1500px] container above: the bracket is often wider
           than that cap, and centering/aligning it inside a narrower ancestor either
           hugs the left edge or clips off-screen. This section spans the true viewport
@@ -129,15 +145,45 @@ export function BracketApp({
           custom logic needed. */}
       <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
-          <div className="relative mx-auto w-fit">
-            {/* Right-aligned to the bracket's own right edge (this wrapper is `w-fit`,
-                matching the amber box below), roughly level with the Overall Champion
-                box above it and clear of the bracket itself. */}
-            <div className="absolute right-0 top-[158px] z-10">
-              <ShareImageButton targetRef={bracketRef} />
+          <div className="mx-auto w-fit">
+            {/* Desktop only: prize boxes + share button positioned inline with the
+                grid, scrolling together as before (desktop layout is unchanged). */}
+            <div className="relative hidden sm:block">
+              <div className="mb-12 flex flex-col items-center">
+                <BracketPrizes />
+              </div>
+              {/* Right-aligned to the bracket's own right edge (this wrapper is
+                  `w-fit`, matching the grid below), roughly level with the Overall
+                  Champion box above it and clear of the grid itself. */}
+              <div className="absolute right-0 top-[158px] z-10">
+                <ShareImageButton targetRef={bracketRef} />
+              </div>
             </div>
-            <div ref={bracketRef}>
-              <Bracket rounds={rounds} onPickWinner={handlePickWinner} />
+
+            {/* Renders at half size by default on mobile so more of the bracket is
+                visible without scrolling — pinch-zoom (still native/unrestricted,
+                see above) lets users zoom further in or out from there, including
+                all the way out to fit the whole thing for a screenshot.
+                `scale-50` alone isn't enough here: a CSS transform shrinks what's
+                *painted* but not the space reserved for it in normal layout, so an
+                ancestor sized off the pre-transform box (as `w-fit` is) still
+                reserves/scrolls the full original width — the bracket would look
+                half-size but still need nearly the same amount of horizontal
+                scrolling, with a lot of dead scroll space past the visible content.
+                The fix: an outer wrapper with an *explicit* width (830px = the
+                grid's fixed 1660px content width × 0.5 — see Column/semifinal/final
+                widths in Bracket.tsx) is what `overflow-x-auto` actually measures,
+                and it exactly matches what the scaled inner content paints into, so
+                there's no dead space and no clipping either. `bracketRef` (used for
+                the html2canvas capture) stays on the *inner*, untransformed div —
+                its own `scrollWidth` reports the true 1660px content size
+                regardless of the outer wrapper or the scale applied to it, so
+                shared images are always full resolution. If the grid's fixed
+                dimensions ever change, recompute 830px (half of the new total). */}
+            <div className="w-[830px] sm:w-fit">
+              <div ref={bracketRef} className="w-fit origin-top-left scale-50 sm:scale-100">
+                <BracketGrid rounds={rounds} onPickWinner={handlePickWinner} />
+              </div>
             </div>
           </div>
         ) : (

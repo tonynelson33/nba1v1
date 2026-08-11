@@ -196,7 +196,25 @@ function RegionPrizeStat({ name }: { name: RegionName }) {
   );
 }
 
-export function Bracket({
+/** The region/overall prize summary — rendered separately from `BracketGrid` so callers
+ *  can place it outside the grid's horizontally-scrollable container on mobile (see
+ *  BracketApp.tsx) while keeping it inline above the grid on desktop. */
+export function BracketPrizes() {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="flex flex-wrap justify-center gap-2">
+        {REGION_ORDER.map((name) => (
+          <RegionPrizeStat key={name} name={name} />
+        ))}
+      </div>
+      <div className="mt-2 flex justify-center">
+        <PrizeStat emoji="👑" label="Overall Champion" amount="$5,000,000" sublabel="King of the Court" />
+      </div>
+    </div>
+  );
+}
+
+export function BracketGrid({
   rounds,
   onPickWinner,
 }: {
@@ -218,18 +236,6 @@ export function Bracket({
     (championMatch.a?.id === championMatch.winnerId ? championMatch.a : championMatch.b);
 
   return (
-    <div className="flex w-fit flex-col items-center">
-      <div className="mb-12 flex flex-col items-center">
-        <div className="flex flex-wrap justify-center gap-2">
-          {REGION_ORDER.map((name) => (
-            <RegionPrizeStat key={name} name={name} />
-          ))}
-        </div>
-        <div className="mt-2 flex justify-center">
-          <PrizeStat emoji="👑" label="Overall Champion" amount="$5,000,000" sublabel="King of the Court" />
-        </div>
-      </div>
-
       <div className="w-fit rounded-xl border-2 border-zinc-700/60 bg-zinc-900/70 p-3 shadow-[0_0_40px_-14px_rgba(217,164,6,0.15)]">
         <div className="flex items-stretch gap-4">
           <RegionStack top={regions.Bigs} bottom={regions.Forwards} onPickWinner={onPickWinner} />
@@ -277,6 +283,5 @@ export function Bracket({
           <RegionStack top={regions.Wings} bottom={regions.Guards} onPickWinner={onPickWinner} flip />
         </div>
       </div>
-    </div>
   );
 }
