@@ -49,7 +49,7 @@ function Column({
       : `border-r-2 ${dividerClass} pr-2`
     : "";
   return (
-    <div className={`flex w-36 shrink-0 flex-col sm:w-40 ${borderClass}`}>
+    <div className={`flex w-40 shrink-0 flex-col ${borderClass}`}>
       <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400">
         {title}
       </div>
@@ -86,14 +86,14 @@ function Region({
   const style = REGION_STYLES[name];
   const dividerSide = flip ? "right" : "left";
 
+  {/* R32 is always the outer, first-round column (left edge normally, right edge when
+      flipped) — it never has a divider. R16 and the Final are always fed by the
+      previous round, so they always get one; only the *side* it's drawn on (left vs
+      right) changes with `flip`. Getting either of these backwards silently produces
+      an extra/missing line on one side of the mirrored region — verify visually
+      against both the Bigs/Forwards and Wings/Guards side after touching this. */}
   const r32Col = (
-    <Column
-      title="Round of 32"
-      matchups={r32}
-      onPickWinner={onPickWinner}
-      dividerClass={flip ? style.divider : undefined}
-      dividerSide={dividerSide}
-    />
+    <Column title="Round of 32" matchups={r32} onPickWinner={onPickWinner} dividerSide={dividerSide} />
   );
   const r16Col = (
     <Column
@@ -106,12 +106,12 @@ function Region({
   );
   const finalCol = (
     <Column
-      title="Region Final"
+      title="Position Final"
       matchups={regionFinal}
       onPickWinner={onPickWinner}
       badge="$1,000,000"
       badgeMode="winner"
-      dividerClass={flip ? undefined : style.divider}
+      dividerClass={style.divider}
       dividerSide={dividerSide}
     />
   );
@@ -219,7 +219,7 @@ export function Bracket({
 
   return (
     <div className="flex w-fit flex-col items-center">
-      <div className="mb-3 flex flex-col items-center">
+      <div className="mb-12 flex flex-col items-center">
         <div className="flex flex-wrap justify-center gap-2">
           {REGION_ORDER.map((name) => (
             <RegionPrizeStat key={name} name={name} />

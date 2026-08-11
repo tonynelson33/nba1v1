@@ -84,7 +84,7 @@ export function BracketApp({
         <header className="relative mb-5 text-center">
           <CourtBackdrop />
           <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
-            🏀 NBA 1<span className="normal-case">v</span>1 Tournament
+            🏀 NBA 1<span className="normal-case">v</span>1 Tournament 🏀
           </div>
           <h1
             className="mt-2 flex items-center justify-center gap-3 text-5xl tracking-wide text-zinc-50 sm:text-6xl"
@@ -108,11 +108,25 @@ export function BracketApp({
           than that cap, and centering/aligning it inside a narrower ancestor either
           hugs the left edge or clips off-screen. This section spans the true viewport
           so `mx-auto w-fit` below can center (or, if still too wide, flush-left without
-          losing content) against the real available width. */}
-      <section className="mb-8 px-4 sm:px-6">
+          losing content) against the real available width.
+          The `overflow-x-auto` wrapper is load-bearing on mobile: without it, the
+          bracket's overflow propagates all the way up to `document.documentElement`,
+          and mobile browsers respond by silently widening the whole page's layout
+          viewport to fit it (ignoring `width=device-width`) instead of just scrolling
+          — every section, not only the bracket, ends up tiny and shifted left. This
+          box contains that overflow locally instead. It's safe from the old
+          `overflow-x-auto` + `justify-center` gotcha (see below) because `mx-auto
+          w-fit` clamps to flush-left rather than centering-with-overflow when the
+          bracket is wider than its container, so there's no start-side overflow to
+          strand. */}
+      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
-          <div className="mx-auto w-fit">
-            <div className="mb-2 flex justify-end">
+          <div className="relative mx-auto w-fit">
+            {/* Positioned above the Wings region specifically (not the bracket's outer
+                right edge), roughly level with the Overall Champion box above it. The
+                bracket's column widths are all fixed pixels (see Column), so this offset
+                is stable — but if those widths ever change, re-measure and adjust. */}
+            <div className="absolute left-[826px] top-[158px] z-10">
               <ShareImageButton targetRef={bracketRef} />
             </div>
             <div ref={bracketRef}>

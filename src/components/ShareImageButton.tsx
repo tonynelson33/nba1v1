@@ -79,7 +79,7 @@ export function ShareImageButton({ targetRef }: { targetRef: RefObject<HTMLEleme
           disabled={busy}
           className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-2 text-sm font-bold text-amber-300 transition hover:bg-amber-500/20 disabled:opacity-50"
         >
-          {busy ? "Rendering…" : "⬇ Download Bracket Image"}
+          {busy ? "Rendering…" : "⬇ Share Bracket"}
         </button>
         {error && <span className="max-w-[220px] text-right text-xs text-red-400">{error}</span>}
       </div>
