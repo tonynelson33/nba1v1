@@ -79,7 +79,7 @@ export function BracketApp({
 
   return (
     <div className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6">
-      <header className="mb-8 text-center">
+      <header className="mb-5 text-center">
         <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
           NBA 1v1 Tournament
         </div>

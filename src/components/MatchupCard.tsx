@@ -30,20 +30,22 @@ function PlayerRow({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex h-9 w-full items-center gap-2 rounded-md px-2 text-left text-xs transition ${
+      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-xs transition ${
         isWinner
           ? "bg-amber-500/25 text-amber-100 ring-2 ring-amber-400"
           : "bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
       } ${disabled ? "cursor-default opacity-80" : "cursor-pointer"}`}
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
-      <span className="w-5 shrink-0 text-center text-[10px] font-bold text-amber-400">
-        {player.seed}
+      <span className="flex items-center gap-2">
+        <span className="w-5 shrink-0 text-center text-[10px] font-bold text-amber-400">
+          {player.seed}
+        </span>
+        <TeamBadge abbr={player.teamAbbr} size="sm" />
+        <span className="flex-1 truncate font-semibold">{player.name}</span>
       </span>
-      <TeamBadge abbr={player.teamAbbr} size="sm" />
-      <span className="flex-1 truncate font-semibold">{player.name}</span>
       {badge && (
-        <span className="shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
+        <span className="ml-7 w-fit shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
           {badge}
         </span>
       )}
