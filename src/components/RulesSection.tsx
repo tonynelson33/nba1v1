@@ -16,7 +16,7 @@ export function RulesSection() {
           .filter((section) => section.items.length > 0)
           .map((section) => (
             <div key={section.heading}>
-              <h3 className="mb-1.5 text-sm font-bold uppercase tracking-widest text-amber-500">
+              <h3 className="mb-1.5 text-sm font-bold uppercase tracking-widest text-zinc-300">
                 {section.heading}
               </h3>
               <ul className="space-y-1.5 text-base text-zinc-400">

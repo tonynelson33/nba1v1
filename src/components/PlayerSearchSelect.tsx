@@ -46,7 +46,7 @@ export function PlayerSearchSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 rounded border border-zinc-700 bg-zinc-900/80 px-2 py-1 text-left text-xs text-zinc-100 transition hover:border-amber-500/60 focus:border-amber-500 focus:outline-none sm:text-sm"
+        className="flex w-full items-center gap-1.5 rounded border border-zinc-700 bg-zinc-900/80 px-2 py-1 text-left text-xs text-zinc-100 transition hover:border-zinc-500 focus:border-zinc-400 focus:outline-none sm:text-sm"
       >
         {showTeamBadge && value && <TeamBadge abbr={value.teamAbbr} size="sm" />}
         <span className="flex-1 truncate">
@@ -79,8 +79,8 @@ export function PlayerSearchSelect({
                     setOpen(false);
                     setQuery("");
                   }}
-                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm hover:bg-amber-500/10 ${
-                    value?.id === p.id ? "bg-amber-500/15 text-amber-300" : "text-zinc-200"
+                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm hover:bg-zinc-800 ${
+                    value?.id === p.id ? "bg-zinc-800 text-zinc-100" : "text-zinc-200"
                   }`}
                 >
                   {showTeamBadge && <TeamBadge abbr={p.teamAbbr} size="sm" />}

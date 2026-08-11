@@ -38,7 +38,7 @@ function PlayerRow({
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
       <span className="flex items-center gap-2">
-        <span className="w-5 shrink-0 text-center text-[10px] font-bold text-amber-400">
+        <span className="w-5 shrink-0 text-center text-[10px] font-bold text-zinc-400">
           {player.seed}
         </span>
         <TeamBadge abbr={player.teamAbbr} size="sm" />

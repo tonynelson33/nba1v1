@@ -4,7 +4,7 @@ export function CourtBackdrop() {
       viewBox="0 0 900 260"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 h-full w-full text-amber-500 opacity-[0.14]"
+      className="pointer-events-none absolute inset-0 -z-10 h-full w-full text-zinc-400 opacity-[0.12]"
     >
       <line x1="450" y1="0" x2="450" y2="260" stroke="currentColor" strokeWidth="3" />
       <circle cx="450" cy="130" r="70" stroke="currentColor" strokeWidth="3" fill="none" />

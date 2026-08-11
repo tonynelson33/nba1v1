@@ -93,7 +93,7 @@ export function BracketApp({
             <span>King of the Court</span>
             <span className="text-[0.9em] leading-none">👑</span>
           </h1>
-          <p className="mt-3 text-lg font-bold text-amber-200 sm:text-2xl">
+          <p className="mt-3 text-lg font-bold text-zinc-200 sm:text-2xl">
             Build your bracket. Crown the King.
           </p>
           <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
@@ -118,15 +118,19 @@ export function BracketApp({
           `overflow-x-auto` + `justify-center` gotcha (see below) because `mx-auto
           w-fit` clamps to flush-left rather than centering-with-overflow when the
           bracket is wider than its container, so there's no start-side overflow to
-          strand. */}
-      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
+          strand.
+          `touch-action` is explicit (`pan-x pinch-zoom`, not the default `auto`) so
+          this scroll box only ever claims horizontal single-finger panning — leaving
+          two-finger pinch-zoom unambiguously free for the browser to handle as a
+          page-level zoom instead of any element potentially treating it as its own
+          gesture. */}
+      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6 [touch-action:pan-x_pinch-zoom]">
         {bracketReady ? (
           <div className="relative mx-auto w-fit">
-            {/* Positioned above the Wings region specifically (not the bracket's outer
-                right edge), roughly level with the Overall Champion box above it. The
-                bracket's column widths are all fixed pixels (see Column), so this offset
-                is stable — but if those widths ever change, re-measure and adjust. */}
-            <div className="absolute left-[826px] top-[158px] z-10">
+            {/* Right-aligned to the bracket's own right edge (this wrapper is `w-fit`,
+                matching the amber box below), roughly level with the Overall Champion
+                box above it and clear of the bracket itself. */}
+            <div className="absolute right-0 top-[158px] z-10">
               <ShareImageButton targetRef={bracketRef} />
             </div>
             <div ref={bracketRef}>
@@ -151,7 +155,7 @@ export function BracketApp({
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-xs font-semibold text-zinc-500 underline decoration-dotted hover:text-amber-400"
+                  className="text-xs font-semibold text-zinc-500 underline decoration-dotted hover:text-zinc-200"
                 >
                   Reset to defaults
                 </button>

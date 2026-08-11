@@ -17,8 +17,8 @@ const REGION_STYLES: Record<RegionName, { banner: string; divider: string }> = {
     divider: "border-emerald-500/40",
   },
   Wings: {
-    banner: "border-yellow-400/50 bg-yellow-500/15 text-yellow-300",
-    divider: "border-yellow-500/40",
+    banner: "border-purple-400/50 bg-purple-500/15 text-purple-300",
+    divider: "border-purple-500/40",
   },
   Guards: {
     banner: "border-rose-400/50 bg-rose-500/15 text-rose-300",
@@ -230,12 +230,12 @@ export function Bracket({
         </div>
       </div>
 
-      <div className="w-fit rounded-xl border-2 border-amber-600/30 bg-zinc-900/70 p-3 shadow-[0_0_50px_-10px_rgba(217,164,6,0.25)]">
+      <div className="w-fit rounded-xl border-2 border-zinc-700/60 bg-zinc-900/70 p-3 shadow-[0_0_40px_-14px_rgba(217,164,6,0.15)]">
         <div className="flex items-stretch gap-4">
           <RegionStack top={regions.Bigs} bottom={regions.Forwards} onPickWinner={onPickWinner} />
 
-          <div className="flex w-44 shrink-0 flex-col border-l-2 border-amber-500/50 pl-3">
-            <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-amber-300">
+          <div className="flex w-44 shrink-0 flex-col border-l-2 border-zinc-700/60 pl-3">
+            <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               Semifinal · Bigs v Forwards
             </div>
             <div className="flex flex-1 flex-col justify-center">
@@ -243,8 +243,8 @@ export function Bracket({
             </div>
           </div>
 
-          <div className="flex w-52 shrink-0 flex-col items-center border-l-2 border-amber-500/50 pl-3">
-            <div className="mb-1.5 text-center text-[10px] font-black uppercase tracking-widest text-amber-300">
+          <div className="flex w-52 shrink-0 flex-col items-center border-l-2 border-zinc-700/60 pl-3">
+            <div className="mb-1.5 text-center text-[10px] font-black uppercase tracking-widest text-zinc-300">
               Final · Champion
             </div>
             <div className="flex flex-1 flex-col items-center justify-center gap-3">
@@ -265,8 +265,8 @@ export function Bracket({
             </div>
           </div>
 
-          <div className="flex w-44 shrink-0 flex-col border-l-2 border-amber-500/50 pl-3">
-            <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-amber-300">
+          <div className="flex w-44 shrink-0 flex-col border-l-2 border-r-2 border-zinc-700/60 pl-3 pr-3">
+            <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               Semifinal · Wings v Guards
             </div>
             <div className="flex flex-1 flex-col justify-center">
