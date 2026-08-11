@@ -9,6 +9,7 @@ import { Bracket } from "./Bracket";
 import { RulesSection } from "./RulesSection";
 import { ShareImageButton } from "./ShareImageButton";
 import { CollapsibleSection } from "./CollapsibleSection";
+import { CourtBackdrop } from "./CourtBackdrop";
 
 const WILDCARD_SLOTS = [
   { slotId: "WC1", label: "Wild Card" },
@@ -78,74 +79,90 @@ export function BracketApp({
   const bracketReady = filledCount === 32;
 
   return (
-    <div className="mx-auto max-w-[1500px] px-4 py-8 sm:px-6">
-      <header className="mb-5 text-center">
-        <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
-          NBA 1v1 Tournament
-        </div>
-        <h1
-          className="mt-2 flex items-center justify-center gap-3 text-5xl tracking-wide text-zinc-50 sm:text-6xl"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          <span>King of the Court</span>
-          <span className="text-[0.9em] leading-none">👑</span>
-        </h1>
-        <p className="mt-3 text-lg font-bold text-amber-200 sm:text-2xl">
-          Build your bracket. Crown the King.
-        </p>
-      </header>
+    <div className="py-8">
+      <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
+        <header className="relative mb-5 text-center">
+          <CourtBackdrop />
+          <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
+            🏀 NBA 1<span className="normal-case">v</span>1 Tournament
+          </div>
+          <h1
+            className="mt-2 flex items-center justify-center gap-3 text-5xl tracking-wide text-zinc-50 sm:text-6xl"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            <span>King of the Court</span>
+            <span className="text-[0.9em] leading-none">👑</span>
+          </h1>
+          <p className="mt-3 text-lg font-bold text-amber-200 sm:text-2xl">
+            Build your bracket. Crown the King.
+          </p>
+          <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
+            32 Players. 1 Player per Team. 2 Wild Cards.
+            <br />
+            Seeded Tallest to Shortest
+          </p>
+        </header>
+      </div>
 
-      <section className="mb-8">
-        <div className="mb-3 flex justify-end">
-          <ShareImageButton targetRef={bracketRef} />
-        </div>
-
+      {/* Not nested in the max-w-[1500px] container above: the bracket is often wider
+          than that cap, and centering/aligning it inside a narrower ancestor either
+          hugs the left edge or clips off-screen. This section spans the true viewport
+          so `mx-auto w-fit` below can center (or, if still too wide, flush-left without
+          losing content) against the real available width. */}
+      <section className="mb-8 px-4 sm:px-6">
         {bracketReady ? (
-          <div ref={bracketRef}>
-            <Bracket rounds={rounds} onPickWinner={handlePickWinner} />
+          <div className="mx-auto w-fit">
+            <div className="mb-2 flex justify-end">
+              <ShareImageButton targetRef={bracketRef} />
+            </div>
+            <div ref={bracketRef}>
+              <Bracket rounds={rounds} onPickWinner={handlePickWinner} />
+            </div>
           </div>
         ) : (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center text-sm text-zinc-400">
+          <div className="mx-auto max-w-[1500px] rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center text-sm text-zinc-400">
             Fill all 32 roster slots below to unlock the bracket.
           </div>
         )}
       </section>
 
-      <div className="mb-4">
-        <CollapsibleSection
-          title="Customize Your Roster"
-          defaultOpen={false}
-          right={
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-zinc-500">{filledCount}/32 selected</span>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="text-xs font-semibold text-zinc-500 underline decoration-dotted hover:text-amber-400"
-              >
-                Reset to defaults
-              </button>
-            </div>
-          }
-        >
-          <RosterPicker
-            teams={teams}
-            wildcardSlots={WILDCARD_SLOTS}
-            selections={selections}
-            playersById={playersById}
-            allPlayers={allPlayers}
-            usedIds={usedIds}
-            onPick={handlePick}
-          />
-        </CollapsibleSection>
+      <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
+        <div className="mb-4">
+          <CollapsibleSection
+            title="Pick Your Players"
+            defaultOpen={false}
+            right={
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-zinc-500">{filledCount}/32 selected</span>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="text-xs font-semibold text-zinc-500 underline decoration-dotted hover:text-amber-400"
+                >
+                  Reset to defaults
+                </button>
+              </div>
+            }
+          >
+            <RosterPicker
+              teams={teams}
+              wildcardSlots={WILDCARD_SLOTS}
+              selections={selections}
+              playersById={playersById}
+              allPlayers={allPlayers}
+              usedIds={usedIds}
+              onPick={handlePick}
+            />
+          </CollapsibleSection>
+        </div>
+
+        <RulesSection />
+
+        <footer className="mt-10 text-center text-xs text-zinc-600">
+          A concept for a real 1-on-1 tournament. Team colors shown for reference; not affiliated
+          with or endorsed by the NBA.
+        </footer>
       </div>
-
-      <RulesSection />
-
-      <footer className="mt-10 text-center text-xs text-zinc-600">
-        A concept for a real 1-on-1 tournament. Team colors shown for reference; not affiliated
-        with or endorsed by the NBA.
-      </footer>
     </div>
   );
 }

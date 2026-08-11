@@ -109,7 +109,7 @@ function Region({
       title="Region Final"
       matchups={regionFinal}
       onPickWinner={onPickWinner}
-      badge="$500,000"
+      badge="$1,000,000"
       badgeMode="winner"
       dividerClass={flip ? undefined : style.divider}
       dividerSide={dividerSide}
@@ -191,7 +191,7 @@ function RegionPrizeStat({ name }: { name: RegionName }) {
   return (
     <div className={`min-w-[100px] flex-1 rounded-lg border px-2 py-1.5 text-center ${style.banner}`}>
       <div className="text-[10px] font-black uppercase tracking-widest">{name}</div>
-      <div className="text-base font-black sm:text-lg">$500,000</div>
+      <div className="text-base font-black sm:text-lg">$1,000,000</div>
     </div>
   );
 }
@@ -218,15 +218,15 @@ export function Bracket({
     (championMatch.a?.id === championMatch.winnerId ? championMatch.a : championMatch.b);
 
   return (
-    <div>
-      <div className="mb-3">
-        <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-2">
+    <div className="flex w-fit flex-col items-center">
+      <div className="mb-3 flex flex-col items-center">
+        <div className="flex flex-wrap justify-center gap-2">
           {REGION_ORDER.map((name) => (
             <RegionPrizeStat key={name} name={name} />
           ))}
         </div>
         <div className="mt-2 flex justify-center">
-          <PrizeStat emoji="👑" label="Overall Champion" amount="$2,000,000" sublabel="King of the Court" />
+          <PrizeStat emoji="👑" label="Overall Champion" amount="$5,000,000" sublabel="King of the Court" />
         </div>
       </div>
 
@@ -258,7 +258,7 @@ export function Bracket({
                 </div>
                 {champion && (
                   <div className="mt-1 inline-block rounded bg-amber-400 px-2 py-0.5 text-xs font-extrabold text-zinc-950">
-                    $2,000,000
+                    $5,000,000
                   </div>
                 )}
               </div>

@@ -3,10 +3,39 @@
 import { useState, type RefObject } from "react";
 import html2canvas from "html2canvas-pro";
 
+const FILE_NAME = "king-of-the-court-bracket.png";
+
 export function ShareImageButton({ targetRef }: { targetRef: RefObject<HTMLElement | null> }) {
   const [busy, setBusy] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Mobile Safari and most mobile browsers silently ignore the `download` attribute on
+  // data: URIs — tapping the link just opens/navigates to the image instead of saving it.
+  // The Web Share API's native share sheet (with a "Save Image" option) is the reliable
+  // way to get a file onto a phone; desktop browsers mostly lack file support here, so
+  // they fall through to the plain anchor download below.
+  async function handleSaveClick() {
+    if (!previewUrl) return;
+    try {
+      const res = await fetch(previewUrl);
+      const blob = await res.blob();
+      const file = new File([blob], FILE_NAME, { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: "King of the Court Bracket" });
+        return;
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      console.error("Web Share failed, falling back to direct download", err);
+    }
+    const a = document.createElement("a");
+    a.href = previewUrl;
+    a.download = FILE_NAME;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
 
   async function handleClick() {
     if (!targetRef.current) return;
@@ -70,13 +99,13 @@ export function ShareImageButton({ targetRef }: { targetRef: RefObject<HTMLEleme
             onClick={(e) => e.stopPropagation()}
           />
           <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
-            <a
-              href={previewUrl}
-              download="king-of-the-court-bracket.png"
+            <button
+              type="button"
+              onClick={handleSaveClick}
               className="rounded-md border border-amber-500/50 bg-amber-500/10 px-4 py-2 text-sm font-bold text-amber-300 hover:bg-amber-500/20"
             >
               Download
-            </a>
+            </button>
             <button
               type="button"
               onClick={() => setPreviewUrl(null)}

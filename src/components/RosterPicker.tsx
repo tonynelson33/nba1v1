@@ -24,7 +24,7 @@ export function RosterPicker({
   onPick: (slotId: string, playerId: string) => void;
 }) {
   return (
-    <div className="columns-2 gap-3 sm:columns-3 lg:columns-4 2xl:columns-6">
+    <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
       {teams.map((team) => {
         const currentId = selections[team.abbr] ?? null;
         const current = currentId ? playersById.get(currentId) ?? null : null;
@@ -36,7 +36,7 @@ export function RosterPicker({
         return (
           <div
             key={team.abbr}
-            className="mb-1.5 flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/40 p-1 break-inside-avoid"
+            className="flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/40 p-1"
           >
             <TeamBadge abbr={team.abbr} size="sm" />
             <div className="min-w-0 flex-1">
@@ -45,6 +45,7 @@ export function RosterPicker({
                 value={current}
                 onChange={(playerId) => onPick(team.abbr, playerId)}
                 placeholder={team.teamName}
+                searchable={false}
               />
             </div>
           </div>
@@ -59,7 +60,7 @@ export function RosterPicker({
         return (
           <div
             key={slot.slotId}
-            className="mb-1.5 flex items-center gap-1.5 rounded-md border border-amber-700/40 bg-amber-500/5 p-1 break-inside-avoid"
+            className="flex items-center gap-1.5 rounded-md border border-amber-700/40 bg-amber-500/5 p-1"
           >
             <TeamBadge abbr={null} size="sm" />
             <div className="min-w-0 flex-1">

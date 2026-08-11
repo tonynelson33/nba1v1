@@ -10,12 +10,15 @@ export function PlayerSearchSelect({
   onChange,
   placeholder = "Search players…",
   showTeamBadge = false,
+  searchable = true,
 }: {
   options: Player[];
   value: Player | null;
   onChange: (playerId: string) => void;
   placeholder?: string;
   showTeamBadge?: boolean;
+  /** false renders a plain pick-from-list dropdown with no text input (e.g. team roster slots). */
+  searchable?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -33,10 +36,10 @@ export function PlayerSearchSelect({
   }, []);
 
   const filtered = useMemo(() => {
+    if (!searchable) return options;
     const q = query.trim().toLowerCase();
-    const base = q ? options.filter((p) => p.name.toLowerCase().includes(q)) : options;
-    return base.slice(0, 50);
-  }, [options, query]);
+    return q ? options.filter((p) => p.name.toLowerCase().includes(q)) : options;
+  }, [options, query, searchable]);
 
   return (
     <div ref={rootRef} className="relative w-full">
@@ -54,13 +57,15 @@ export function PlayerSearchSelect({
 
       {open && (
         <div className="absolute z-30 mt-1 w-72 max-w-[90vw] overflow-hidden rounded-md border border-zinc-700 bg-zinc-900 shadow-xl">
-          <input
-            autoFocus
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Type a name…"
-            className="w-full border-b border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600"
-          />
+          {searchable && (
+            <input
+              autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Type a name…"
+              className="w-full border-b border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600"
+            />
+          )}
           <ul className="max-h-64 overflow-y-auto py-1">
             {filtered.length === 0 && (
               <li className="px-3 py-2 text-sm text-zinc-500">No players found</li>
