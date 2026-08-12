@@ -10,7 +10,7 @@ const DISPLAY_TITLE = "Official 1v1 Rules";
 
 export function RulesSection() {
   return (
-    <CollapsibleSection title={DISPLAY_TITLE} defaultOpen={false}>
+    <CollapsibleSection title={DISPLAY_TITLE} defaultOpen={true}>
       <div className="flex flex-col gap-6">
         {data.sections
           .filter((section) => section.items.length > 0)

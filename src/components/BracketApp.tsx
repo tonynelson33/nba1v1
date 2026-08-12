@@ -202,7 +202,7 @@ export function BracketApp({
         <div className="mb-4">
           <CollapsibleSection
             title="Pick Your Players"
-            defaultOpen={false}
+            defaultOpen={true}
             right={
               <div className="flex items-center gap-3">
                 <span className="text-xs text-zinc-500">{filledCount}/32 selected</span>
