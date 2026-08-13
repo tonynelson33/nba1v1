@@ -31,6 +31,17 @@ This regenerates:
 
 Team full names/rosters key off the **team's official ID** (abbr), not display order — `teams.json` is already alphabetical, which `RosterPicker` relies on for its grid layout order.
 
+### Refreshing rosters from nba.com/players directly (bypasses the spreadsheet)
+**Only do this when the user explicitly asks** ("update the rosters") — never automatically or on a schedule; rosters don't change often enough to warrant it, and it's the user's call each time.
+
+`nba.com/players` embeds the full current player list as JSON directly in the page's initial HTML — no visible-table scraping, no pagination needed. It's read from `document.getElementById('__NEXT_DATA__')`, then `JSON.parse(...).props.pageProps.players`, an array of ~580 records with `PLAYER_FIRST_NAME`/`PLAYER_LAST_NAME`, `TEAM_ABBREVIATION`, `POSITION`, `HEIGHT` (`"6-8"` string, needs converting to inches), `WEIGHT`, and a `ROSTER_STATUS` field — **filter to `ROSTER_STATUS === 1` and non-null `HEIGHT`/`WEIGHT`/`POSITION`** (~12 fringe/two-way players are usually missing bio data and get excluded; without the roster-status filter you also pick up unsigned free agents with no team, which briefly showed up as a 31st "team" of `null`). This was fetched via the Browser tool (a real rendered browser), not a plain scripted `fetch()` — nba.com has visible Akamai bot-protection scripts loading, and a non-browser request was never tested against it, so a repeatable script-only version of this isn't confirmed to work. For now this is a manual, Claude-driven process each time, not an `npm run` command.
+
+`teams.json`'s per-team `defaultPickId` and `defaultWildcards.json` are **curated picks, not derivable from nba.com's data** — re-resolve them by taking the *current* file's picks (by name, via the *current* `allPlayers.json`), then matching those same names against the fresh roster. A team whose previous pick was traded/waived/retired falls back to `roster[0]` (first alphabetically) automatically — this is expected, not an error, but worth surfacing to the user since it silently changes what loads as that team's default.
+
+Validate before overwriting the real `src/data/*.json` — build the new files to a scratch location first and check: all 30 teams present with reasonable roster sizes (mid-teens to mid-20s per team), and the console-reported "default picks resolved" / "wild cards resolved" counts. Only copy into `src/data/` once that looks clean, then verify same as any other change (`tsc`, `eslint`, click through the roster picker and a full bracket) before committing.
+
+Do the whole thing on a **separate git branch, not `main`** — push the branch (which gets its own Vercel preview deployment/URL, isolated from production) and let the user click through the real app on that preview before merging anything into `main`. `rules.json` is unrelated to this and untouched by a roster refresh (it comes from the `Basic Game Rules` spreadsheet tab, not nba.com).
+
 ## Bracket structure (this trips people up — read before touching `lib/seeding.ts` or `components/Bracket.tsx`)
 - Seeding: `seedPlayers()` sorts all 32 picked players by height desc, weight desc, name asc — seeds 1-32.
 - Regions are just seed ranges, not real positions: seeds 1-8 = "Bigs", 9-16 = "Forwards", 17-24 = "Wings", 25-32 = "Guards". Internally still typed/named `Pod` (`lib/types.ts`, `lib/seeding.ts`) — only the UI copy was renamed to "Region" (a user correction); don't rename the internal type without also checking `seeding.ts#podChampions`.
