@@ -156,23 +156,18 @@ export function BracketApp({
       <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
           <div className="mx-auto w-fit">
-            {/* Desktop only: the share button's position (right-aligned to the grid,
-                `top-[158px]`) is still measured relative to a prize-row-sized gap
-                above the grid, so that gap is preserved here as an `invisible`
-                spacer (occupies the same layout space, renders nothing) rather than
-                a real second copy of the prize row — the real, visible one now lives
-                in the frozen block above (see comment there). Don't delete this
-                spacer without also re-deriving the button's `top` offset. */}
-            <div className="relative hidden sm:block">
-              <div className="invisible mb-12 flex flex-col items-center" aria-hidden="true">
-                <BracketPrizes />
-              </div>
-              {/* Right-aligned to the bracket's own right edge (this wrapper is
-                  `w-fit`, matching the grid below), roughly level with the Overall
-                  Champion box above it and clear of the grid itself. */}
-              <div className="absolute right-0 top-[158px] z-10">
-                <ShareImageButton targetRef={bracketRef} />
-              </div>
+            {/* Desktop only: right-aligned to the grid's own right edge (this wrapper
+                is `w-fit`, matching the grid below), with just enough gap (`mb-2`)
+                to sit clear of it — not a large gap, since the prize row now lives
+                in the frozen block above and there's nothing here to be "level
+                with" anymore. (An earlier version tried to preserve the button's old
+                position, measured back when the prize row rendered inline right
+                here, with an invisible same-sized spacer — that just reintroduced
+                the same large dead gap above the grid as a layout-only bug once the
+                real prize row moved to the frozen block, even though nothing was
+                visually there anymore.) */}
+            <div className="mb-2 hidden justify-end sm:flex">
+              <ShareImageButton targetRef={bracketRef} />
             </div>
 
             {/* Renders at half size by default on mobile so more of the bracket is
