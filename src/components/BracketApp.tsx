@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Player, PlayerTuple, Team } from "@/lib/types";
 import { deriveBracket, seedPlayers } from "@/lib/seeding";
 import { hydratePlayers } from "@/lib/players";
@@ -15,6 +15,12 @@ const WILDCARD_SLOTS = [
   { slotId: "WC1", label: "Wild Card" },
   { slotId: "WC2", label: "Wild Card" },
 ];
+
+// The grid's fixed, non-responsive content size (see Column/semifinal/final widths in
+// Bracket.tsx) — used to compute how much to shrink it to fit whatever width is actually
+// available, on any screen, instead of a hardcoded per-breakpoint scale.
+const BRACKET_WIDTH = 1660;
+const BRACKET_HEIGHT = 942;
 
 export function BracketApp({
   teams,
@@ -44,6 +50,45 @@ export function BracketApp({
   const [selections, setSelections] = useState(defaultSelections);
   const [winners, setWinners] = useState<Record<string, string>>({});
   const bracketRef = useRef<HTMLDivElement>(null);
+  const scrollSectionRef = useRef<HTMLElement>(null);
+
+  // Desktop (≥640px, matching Tailwind's `sm` breakpoint): shrinks the grid to exactly
+  // fit whatever width is available (never grows past its natural 100%), so no screen
+  // ever needs horizontal scrolling to see the whole bracket by default — on a screen
+  // wide enough already, this settles back to 1 (no shrink). Users can still pinch-zoom
+  // in from there for detail (unaffected by this — see the touch-action comment below).
+  // Mobile stays at a fixed 0.5 regardless of fit — auto-fitting a ~1660px grid into a
+  // ~375px phone would shrink it to ~0.23 (illegibly small); 0.5 was already deliberately
+  // chosen (see below) as "smaller by default, still readable at a glance," not
+  // "guaranteed no scrolling," and stays that way on purpose.
+  const MOBILE_BREAKPOINT = 640;
+  const MOBILE_SCALE = 0.5;
+  const [bracketScale, setBracketScale] = useState(1);
+  useEffect(() => {
+    function updateScale() {
+      const el = scrollSectionRef.current;
+      if (!el) return;
+      if (window.innerWidth < MOBILE_BREAKPOINT) {
+        setBracketScale(MOBILE_SCALE);
+        return;
+      }
+      const style = getComputedStyle(el);
+      const paddingX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const available = el.clientWidth - paddingX;
+      setBracketScale(Math.min(1, available / BRACKET_WIDTH));
+    }
+    updateScale();
+    // ResizeObserver instead of a plain `resize` listener: it reacts to the section's
+    // actual layout width changing, for any reason (window resize, but also e.g. a
+    // scrollbar appearing/disappearing, font loading, or devtools panel toggling) —
+    // strictly more reliable for "keep this element's size accurate" than only
+    // listening for whole-window resize events.
+    const el = scrollSectionRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const usedIds = useMemo(
     () => new Set(Object.values(selections).filter((v): v is string => Boolean(v))),
@@ -153,7 +198,7 @@ export function BracketApp({
           lets the browser sort it out natively — horizontal swipe scrolls this box,
           vertical swipe bubbles to scroll the page, pinch-zoom works — with zero
           custom logic needed. */}
-      <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
+      <section ref={scrollSectionRef} className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
           <div className="mx-auto w-fit">
             {/* Desktop only: right-aligned to the grid's own right edge (this wrapper
@@ -170,33 +215,34 @@ export function BracketApp({
               <ShareImageButton targetRef={bracketRef} />
             </div>
 
-            {/* Renders at half size by default on mobile so more of the bracket is
-                visible without scrolling — pinch-zoom (still native/unrestricted,
-                see above) lets users zoom further in or out from there, including
-                all the way out to fit the whole thing for a screenshot.
-                `scale-50` alone isn't enough here: a CSS transform shrinks what's
+            {/* Shrunk to `bracketScale` (computed above from the actual available
+                width, capped at 1) so the whole grid fits on screen with no
+                horizontal scrolling needed by default, on any screen size — pinch-
+                zoom (still native/unrestricted, see above) lets users zoom further
+                in or out from there, including all the way out to fit the whole
+                thing for a screenshot.
+                A CSS `transform: scale()` alone isn't enough here: it shrinks what's
                 *painted* but not the space reserved for it in normal layout, so an
                 ancestor sized off the pre-transform box (as `w-fit` is) still
                 reserves/scrolls the full original width — the bracket would look
-                half-size but still need nearly the same amount of horizontal
+                shrunk but still need nearly the same amount of horizontal
                 scrolling, with a lot of dead scroll space past the visible content.
-                The fix: an outer wrapper with an *explicit* width (830px = the
-                grid's fixed 1660px content width × 0.5 — see Column/semifinal/final
-                widths in Bracket.tsx) is what `overflow-x-auto` actually measures,
-                and it exactly matches what the scaled inner content paints into, so
-                there's no dead space and no clipping either. `bracketRef` (used for
-                the html2canvas capture) stays on the *inner*, untransformed div —
-                its own `scrollWidth`/`scrollHeight` report the true full-size
-                content regardless of the outer wrapper or the scale applied to it,
-                so shared images are always full resolution. Height needs the exact
-                same explicit treatment as width, for the exact same reason — the
-                first version of this only constrained width, and the grid's full
-                ~942px unscaled height (vs. ~471px actually visible) got reserved
-                below it in the page's normal vertical flow, leaving a large empty
-                gap before "Pick Your Players". If the grid's fixed dimensions ever
-                change, recompute both 830px and 471px (half of the new totals). */}
-            <div className="h-[471px] w-[830px] sm:h-fit sm:w-fit">
-              <div ref={bracketRef} className="w-fit origin-top-left scale-50 sm:scale-100">
+                The fix: an outer wrapper with an *explicit* pixel size (the grid's
+                fixed dimensions × `bracketScale`) is what `overflow-x-auto` actually
+                measures, and it exactly matches what the scaled inner content paints
+                into, so there's no dead space and no clipping either. `bracketRef`
+                (used for the html2canvas capture) stays on the *inner*,
+                untransformed div — its own `scrollWidth`/`scrollHeight` report the
+                true full-size content regardless of the outer wrapper or the scale
+                applied to it, so shared images are always full resolution
+                regardless of the on-screen display scale. Height needs the exact
+                same explicit treatment as width, for the exact same reason. */}
+            <div style={{ width: BRACKET_WIDTH * bracketScale, height: BRACKET_HEIGHT * bracketScale }}>
+              <div
+                ref={bracketRef}
+                className="w-fit origin-top-left"
+                style={{ transform: `scale(${bracketScale})` }}
+              >
                 <BracketGrid rounds={rounds} onPickWinner={handlePickWinner} />
               </div>
             </div>
