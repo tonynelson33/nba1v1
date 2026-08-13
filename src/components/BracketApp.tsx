@@ -104,18 +104,28 @@ export function BracketApp({
         </header>
       </div>
 
-      {/* Mobile-only (hidden at sm+): prize boxes + share button live here, in normal
-          page flow like the header, so they stay put ("frozen") while only the grid
-          below scrolls sideways. Desktop keeps its own copy of these, positioned
-          inline with the grid inside the scrollable section (see below) — kept as a
-          separate render rather than reused across breakpoints because one has to
-          live outside the scroll container and the other inside it; CSS alone can't
-          relocate an element across a different scrolling ancestor. */}
+      {/* Prize boxes live here, in normal page flow like the header, on every screen
+          size — not just mobile. They used to also render a second time inline with
+          the grid inside the scrollable section below, centered *relative to the
+          bracket's own w-fit wrapper* rather than the page. That looked fine only
+          when the viewport was wide enough for the bracket to truly center (roughly
+          ≥1750px); on ordinary laptop widths the bracket wrapper flushes left (see
+          the comment on the scrollable section below), so the prize row rode along
+          with it and ended up visibly left of true page-center — unlike the header
+          text above it, which always centers correctly since it's never wider than
+          its container. Rendering the prize row here instead means it's centered the
+          same way the header is, regardless of the bracket's own position.
+          The share button stays split by breakpoint, though: on mobile it renders
+          right here (frozen, same as the prize row). On desktop it's still
+          positioned relative to the grid itself (see the scrollable section below)
+          — that part wasn't reported as broken, so it's left alone. */}
       {bracketReady && (
-        <div className="mx-auto mb-4 max-w-[1500px] px-4 sm:hidden">
+        <div className="mx-auto mb-4 max-w-[1500px] px-4 sm:px-6">
           <div className="flex flex-col items-center gap-3">
             <BracketPrizes />
-            <ShareImageButton targetRef={bracketRef} />
+            <div className="sm:hidden">
+              <ShareImageButton targetRef={bracketRef} />
+            </div>
           </div>
         </div>
       )}
@@ -146,10 +156,15 @@ export function BracketApp({
       <section className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
           <div className="mx-auto w-fit">
-            {/* Desktop only: prize boxes + share button positioned inline with the
-                grid, scrolling together as before (desktop layout is unchanged). */}
+            {/* Desktop only: the share button's position (right-aligned to the grid,
+                `top-[158px]`) is still measured relative to a prize-row-sized gap
+                above the grid, so that gap is preserved here as an `invisible`
+                spacer (occupies the same layout space, renders nothing) rather than
+                a real second copy of the prize row — the real, visible one now lives
+                in the frozen block above (see comment there). Don't delete this
+                spacer without also re-deriving the button's `top` offset. */}
             <div className="relative hidden sm:block">
-              <div className="mb-12 flex flex-col items-center">
+              <div className="invisible mb-12 flex flex-col items-center" aria-hidden="true">
                 <BracketPrizes />
               </div>
               {/* Right-aligned to the bracket's own right edge (this wrapper is
