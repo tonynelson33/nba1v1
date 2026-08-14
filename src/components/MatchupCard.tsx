@@ -1,7 +1,7 @@
 "use client";
 
 import type { Matchup, SeededPlayer } from "@/lib/types";
-import { TeamBadge } from "./TeamBadge";
+import { RatingBadge } from "./RatingBadge";
 
 function PlayerRow({
   player,
@@ -41,7 +41,7 @@ function PlayerRow({
         <span className="w-5 shrink-0 text-center text-[10px] font-bold text-zinc-400">
           {player.seed}
         </span>
-        <TeamBadge abbr={player.teamAbbr} size="sm" />
+        <RatingBadge overall={player.overall} size="sm" />
         <span className="flex-1 truncate font-semibold">{player.name}</span>
       </span>
       {badge && (

@@ -6,6 +6,11 @@ import { TeamBadge } from "./TeamBadge";
 
 type WildcardSlot = { slotId: string; label: string };
 
+/** Highest 2K rating first; unrated (null) players sort last, alphabetically among ties. */
+function byRatingDesc(a: Player, b: Player): number {
+  return (b.overall ?? -1) - (a.overall ?? -1) || a.name.localeCompare(b.name);
+}
+
 export function RosterPicker({
   teams,
   wildcardSlots,
@@ -31,7 +36,8 @@ export function RosterPicker({
         const options = team.rosterIds
           .map((id) => playersById.get(id))
           .filter((p): p is Player => Boolean(p))
-          .filter((p) => p.id === currentId || !usedIds.has(p.id));
+          .filter((p) => p.id === currentId || !usedIds.has(p.id))
+          .sort(byRatingDesc);
 
         return (
           <div
@@ -55,7 +61,9 @@ export function RosterPicker({
       {wildcardSlots.map((slot) => {
         const currentId = selections[slot.slotId] ?? null;
         const current = currentId ? playersById.get(currentId) ?? null : null;
-        const options = allPlayers.filter((p) => p.id === currentId || !usedIds.has(p.id));
+        const options = allPlayers
+          .filter((p) => p.id === currentId || !usedIds.has(p.id))
+          .sort(byRatingDesc);
 
         return (
           <div

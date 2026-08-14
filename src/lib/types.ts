@@ -6,10 +6,12 @@ export type Player = {
   heightIn: number;
   heightLabel: string;
   weightLb: number;
+  /** 2K overall rating, 0-99. Null when the player has no current 2K rating (unrated). */
+  overall: number | null;
 };
 
-/** Compact wire format for allPlayers.json: [id, name, teamAbbr, position, heightIn, weightLb]. */
-export type PlayerTuple = [string, string, string, string, number, number];
+/** Compact wire format for allPlayers.json: [id, name, teamAbbr, position, heightIn, weightLb, overall]. */
+export type PlayerTuple = [string, string, string, string, number, number, number | null];
 
 export type Team = {
   teamName: string;

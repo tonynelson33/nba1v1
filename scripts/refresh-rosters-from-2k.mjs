@@ -4,10 +4,11 @@ import path from "path";
 // Refreshes allPlayers.json / teams.json / defaultWildcards.json.
 //
 // Roster membership, position, height, and weight come from nba.com/players (matches the
-// project's existing bio-data convention exactly). Only the *default* pick per team and the
-// 2 default wild cards are chosen differently: by 2K overall rating instead of curated picks.
-// The 2K API's own height/weight are NOT used — they reflect in-game (sometimes exaggerated)
-// listings, not real bio measurements, and this project's seeding depends on real height/weight.
+// project's existing bio-data convention exactly). The 2K API's own height/weight are NOT
+// used — they reflect in-game (sometimes exaggerated) listings, not real bio measurements,
+// and this project's seeding depends on real height/weight. 2K overall rating is stored per
+// player (null when unrated/unmatched) and drives both the default pick per team + the 2
+// default wild cards, and the rating badges shown in the UI.
 //
 // nba.com/players has bot-protection that blocks plain fetch() (see CLAUDE.md), so its data
 // must be captured fresh via a real browser each time and saved as a JSON input file:
@@ -175,7 +176,15 @@ async function main() {
   }
 
   players.sort((a, b) => a.id.localeCompare(b.id));
-  const allPlayers = players.map((p) => [p.id, p.name, p.teamAbbr, p.position, p.heightIn, p.weightLb]);
+  const allPlayers = players.map((p) => [
+    p.id,
+    p.name,
+    p.teamAbbr,
+    p.position,
+    p.heightIn,
+    p.weightLb,
+    p.overall,
+  ]);
 
   // ---------- teams.json: 30 teams, default pick = highest-rated player on that roster ----------
   const byTeam = new Map();
