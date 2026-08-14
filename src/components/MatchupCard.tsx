@@ -18,8 +18,7 @@ function PlayerRow({
 }) {
   if (!player) {
     return (
-      <div className="flex h-9 items-center gap-2 rounded border border-dashed border-zinc-700 px-2 text-xs text-zinc-500">
-        <span className="w-5 text-center text-zinc-600">—</span>
+      <div className="flex h-9 items-center gap-2 rounded border border-dashed border-zinc-700 px-2 text-sm text-zinc-500">
         <span>TBD</span>
       </div>
     );
@@ -30,7 +29,7 @@ function PlayerRow({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-xs transition ${
+      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-sm transition ${
         isWinner
           ? "bg-amber-500/25 text-amber-100 ring-2 ring-amber-400"
           : "bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
@@ -38,14 +37,11 @@ function PlayerRow({
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
       <span className="flex items-center gap-2">
-        <span className="w-5 shrink-0 text-center text-[10px] font-bold text-zinc-400">
-          {player.seed}
-        </span>
         <RatingBadge overall={player.overall} size="sm" />
         <span className="flex-1 truncate font-semibold">{player.name}</span>
       </span>
       {badge && (
-        <span className="ml-7 w-fit shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
+        <span className="w-fit shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
           {badge}
         </span>
       )}
