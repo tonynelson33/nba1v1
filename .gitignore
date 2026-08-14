@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# scratch output from scripts/refresh-rosters-from-2k.mjs
+/scripts/.roster-refresh-scratch/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
