@@ -96,6 +96,13 @@ async function main() {
   const twoK = (await fetchAllCurrent2kPlayers()).filter((p) => p.team !== "Free Agency");
   console.log(`Fetched ${twoK.length} rostered 2K players.`);
 
+  // 2K's own per-player lastUpdated timestamp — when their pipeline last synced that rating,
+  // not when we happened to call the API. Take the latest across all players as "ratings as of."
+  const ratingsAsOf = twoK.reduce((latest, p) => {
+    const t = p.lastUpdated;
+    return t && (!latest || t > latest) ? t : latest;
+  }, null);
+
   // Index 2K overall ratings by normalized name + team, and separately by name alone as a
   // fallback for cases where the two sources disagree on team (recent trade, etc.).
   const byNameAndTeam = new Map();
@@ -222,10 +229,12 @@ async function main() {
   fs.writeFileSync(path.join(OUT_DIR, "allPlayers.json"), JSON.stringify(allPlayers));
   fs.writeFileSync(path.join(OUT_DIR, "teams.json"), JSON.stringify(teams, null, 2));
   fs.writeFileSync(path.join(OUT_DIR, "defaultWildcards.json"), JSON.stringify(wildcards, null, 2));
+  fs.writeFileSync(path.join(OUT_DIR, "ratingsMeta.json"), JSON.stringify({ asOf: ratingsAsOf }, null, 2));
 
   // ---------- Validation summary ----------
   const rosterSizes = teams.map((t) => t.rosterIds.length);
   console.log("\n--- Validation summary ---");
+  console.log(`Ratings as of: ${ratingsAsOf}`);
   console.log(`Players kept: ${players.length} (bad height skipped: ${stats.badHeight})`);
   console.log(
     `Ratings: matched by name+team ${stats.matchedByNameAndTeam}, matched by name only ${stats.matchedByNameOnly}, unrated ${stats.unrated}`

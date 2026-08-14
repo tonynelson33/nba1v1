@@ -26,11 +26,23 @@ export function BracketApp({
   teams,
   allPlayersRaw,
   defaultWildcards,
+  ratingsAsOf,
 }: {
   teams: Team[];
   allPlayersRaw: PlayerTuple[];
   defaultWildcards: string[];
+  /** ISO timestamp from the 2K API's own last-sync date (see ratingsMeta.json). */
+  ratingsAsOf: string;
 }) {
+  // timeZone: "UTC" so the date shown doesn't shift a day depending on the viewer's local
+  // timezone relative to the API's UTC timestamp (e.g. an early-UTC-morning sync time would
+  // otherwise read as the previous day for anyone west of UTC).
+  const ratingsAsOfLabel = new Date(ratingsAsOf).toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit",
+    timeZone: "UTC",
+  });
   const allPlayers = useMemo(() => hydratePlayers(allPlayersRaw), [allPlayersRaw]);
 
   const playersById = useMemo(() => {
@@ -261,7 +273,7 @@ export function BracketApp({
             defaultOpen={true}
             right={
               <div className="flex items-center gap-3">
-                <span className="text-xs text-zinc-500">{filledCount}/32 selected</span>
+                <span className="text-xs text-zinc-500">2K ratings as of {ratingsAsOfLabel}</span>
                 <button
                   type="button"
                   onClick={handleReset}
