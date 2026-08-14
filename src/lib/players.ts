@@ -6,7 +6,7 @@ export function heightLabelFor(heightIn: number): string {
 }
 
 export function hydratePlayers(tuples: PlayerTuple[]): Player[] {
-  return tuples.map(([id, name, teamAbbr, position, heightIn, weightLb]) => ({
+  return tuples.map(([id, name, teamAbbr, position, heightIn, weightLb, overall]) => ({
     id,
     name,
     teamAbbr,
@@ -14,5 +14,6 @@ export function hydratePlayers(tuples: PlayerTuple[]): Player[] {
     heightIn,
     heightLabel: heightLabelFor(heightIn),
     weightLb,
+    overall,
   }));
 }

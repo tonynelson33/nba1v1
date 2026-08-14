@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Player } from "@/lib/types";
 import { TeamBadge } from "./TeamBadge";
+import { RatingBadge } from "./RatingBadge";
 
 export function PlayerSearchSelect({
   options,
@@ -49,6 +50,7 @@ export function PlayerSearchSelect({
         className="flex w-full items-center gap-1.5 rounded border border-zinc-700 bg-zinc-900/80 px-2 py-1 text-left text-xs text-zinc-100 transition hover:border-zinc-500 focus:border-zinc-400 focus:outline-none sm:text-sm"
       >
         {showTeamBadge && value && <TeamBadge abbr={value.teamAbbr} size="sm" />}
+        {value && <RatingBadge overall={value.overall} size="sm" />}
         <span className="flex-1 truncate">
           {value ? value.name : <span className="text-zinc-500">{placeholder}</span>}
         </span>
@@ -84,6 +86,7 @@ export function PlayerSearchSelect({
                   }`}
                 >
                   {showTeamBadge && <TeamBadge abbr={p.teamAbbr} size="sm" />}
+                  <RatingBadge overall={p.overall} size="sm" />
                   <span className="flex-1 truncate">{p.name}</span>
                   <span className="text-xs text-zinc-500">
                     {p.heightLabel} · {p.weightLb}lb
