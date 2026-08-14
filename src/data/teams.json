@@ -127,7 +127,7 @@
       "tre-jones-chi",
       "zach-collins-chi"
     ],
-    "defaultPickId": "caleb-wilson-chi"
+    "defaultPickId": "norman-powell-chi"
   },
   {
     "teamName": "Cleveland Cavaliers",
@@ -179,7 +179,7 @@
       "tobi-lawal-dal",
       "zaccharie-risacher-dal"
     ],
-    "defaultPickId": "cooper-flagg-dal"
+    "defaultPickId": "kyrie-irving-dal"
   },
   {
     "teamName": "Denver Nuggets",
@@ -290,7 +290,6 @@
       "andrew-nembhard-ind",
       "ben-sheppard-ind",
       "braden-smith-ind",
-      "ethan-thompson-ind",
       "ivica-zubac-ind",
       "jalen-slawson-ind",
       "jarace-walker-ind",
@@ -305,7 +304,7 @@
       "t-j-mcconnell-ind",
       "tyrese-haliburton-ind"
     ],
-    "defaultPickId": "pascal-siakam-ind"
+    "defaultPickId": "tyrese-haliburton-ind"
   },
   {
     "teamName": "Los Angeles Clippers",
@@ -389,7 +388,7 @@
       "walter-clayton-jr-mem",
       "zach-edey-mem"
     ],
-    "defaultPickId": "cameron-boozer-mem"
+    "defaultPickId": "ty-jerome-mem"
   },
   {
     "teamName": "Miami Heat",
@@ -591,7 +590,7 @@
       "tyrese-maxey-phi",
       "vj-edgecombe-phi"
     ],
-    "defaultPickId": "joel-embiid-phi"
+    "defaultPickId": "jaylen-brown-phi"
   },
   {
     "teamName": "Phoenix Suns",
@@ -642,7 +641,7 @@
       "vit-krejci-por",
       "yang-hansen-por"
     ],
-    "defaultPickId": "deni-avdija-por"
+    "defaultPickId": "damian-lillard-por"
   },
   {
     "teamName": "Sacramento Kings",
@@ -669,7 +668,7 @@
       "russell-westbrook-sac",
       "zach-lavine-sac"
     ],
-    "defaultPickId": "zach-lavine-sac"
+    "defaultPickId": "domantas-sabonis-sac"
   },
   {
     "teamName": "San Antonio Spurs",
@@ -721,7 +720,7 @@
       "trayce-jackson-davis-tor",
       "trey-jemison-iii-tor"
     ],
-    "defaultPickId": "brandon-ingram-tor"
+    "defaultPickId": "scottie-barnes-tor"
   },
   {
     "teamName": "Utah Jazz",
