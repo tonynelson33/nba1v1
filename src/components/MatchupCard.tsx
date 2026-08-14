@@ -29,10 +29,10 @@ function PlayerRow({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-sm transition ${
+      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md border-2 px-2 py-1.5 text-left text-sm transition ${
         isWinner
-          ? "bg-amber-500/25 text-amber-100 ring-2 ring-amber-400"
-          : "bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
+          ? "border-amber-400 bg-amber-950 text-amber-100"
+          : "border-transparent bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
       } ${disabled ? "cursor-default opacity-80" : "cursor-pointer"}`}
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
