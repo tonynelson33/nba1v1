@@ -7,7 +7,6 @@ import { hydratePlayers } from "@/lib/players";
 import { RosterPicker } from "./RosterPicker";
 import { BracketPrizes, BracketGrid } from "./Bracket";
 import { RulesSection } from "./RulesSection";
-import { ShareImageButton } from "./ShareImageButton";
 import { CollapsibleSection } from "./CollapsibleSection";
 import { CourtBackdrop } from "./CourtBackdrop";
 
@@ -61,7 +60,6 @@ export function BracketApp({
 
   const [selections, setSelections] = useState(defaultSelections);
   const [winners, setWinners] = useState<Record<string, string>>({});
-  const bracketRef = useRef<HTMLDivElement>(null);
   const scrollSectionRef = useRef<HTMLElement>(null);
 
   // Desktop (≥640px, matching Tailwind's `sm` breakpoint): shrinks the grid to exactly
@@ -171,18 +169,11 @@ export function BracketApp({
           with it and ended up visibly left of true page-center — unlike the header
           text above it, which always centers correctly since it's never wider than
           its container. Rendering the prize row here instead means it's centered the
-          same way the header is, regardless of the bracket's own position.
-          The share button stays split by breakpoint, though: on mobile it renders
-          right here (frozen, same as the prize row). On desktop it's still
-          positioned relative to the grid itself (see the scrollable section below)
-          — that part wasn't reported as broken, so it's left alone. */}
+          same way the header is, regardless of the bracket's own position. */}
       {bracketReady && (
         <div className="mx-auto mb-4 max-w-[1500px] px-4 sm:px-6">
           <div className="flex flex-col items-center gap-3">
             <BracketPrizes />
-            <div className="sm:hidden">
-              <ShareImageButton targetRef={bracketRef} />
-            </div>
           </div>
         </div>
       )}
@@ -213,26 +204,11 @@ export function BracketApp({
       <section ref={scrollSectionRef} className="mb-8 mx-auto max-w-[1800px] overflow-x-auto px-4 sm:px-6">
         {bracketReady ? (
           <div className="mx-auto w-fit">
-            {/* Desktop only: right-aligned to the grid's own right edge (this wrapper
-                is `w-fit`, matching the grid below), with just enough gap (`mb-2`)
-                to sit clear of it — not a large gap, since the prize row now lives
-                in the frozen block above and there's nothing here to be "level
-                with" anymore. (An earlier version tried to preserve the button's old
-                position, measured back when the prize row rendered inline right
-                here, with an invisible same-sized spacer — that just reintroduced
-                the same large dead gap above the grid as a layout-only bug once the
-                real prize row moved to the frozen block, even though nothing was
-                visually there anymore.) */}
-            <div className="mb-2 hidden justify-end sm:flex">
-              <ShareImageButton targetRef={bracketRef} />
-            </div>
-
             {/* Shrunk to `bracketScale` (computed above from the actual available
                 width, capped at 1) so the whole grid fits on screen with no
                 horizontal scrolling needed by default, on any screen size — pinch-
                 zoom (still native/unrestricted, see above) lets users zoom further
-                in or out from there, including all the way out to fit the whole
-                thing for a screenshot.
+                in or out from there.
                 A CSS `transform: scale()` alone isn't enough here: it shrinks what's
                 *painted* but not the space reserved for it in normal layout, so an
                 ancestor sized off the pre-transform box (as `w-fit` is) still
@@ -242,19 +218,11 @@ export function BracketApp({
                 The fix: an outer wrapper with an *explicit* pixel size (the grid's
                 fixed dimensions × `bracketScale`) is what `overflow-x-auto` actually
                 measures, and it exactly matches what the scaled inner content paints
-                into, so there's no dead space and no clipping either. `bracketRef`
-                (used for the html2canvas capture) stays on the *inner*,
-                untransformed div — its own `scrollWidth`/`scrollHeight` report the
-                true full-size content regardless of the outer wrapper or the scale
-                applied to it, so shared images are always full resolution
-                regardless of the on-screen display scale. Height needs the exact
-                same explicit treatment as width, for the exact same reason. */}
+                into, so there's no dead space and no clipping either. Height needs
+                the exact same explicit treatment as width, for the exact same
+                reason. */}
             <div style={{ width: BRACKET_WIDTH * bracketScale, height: BRACKET_HEIGHT * bracketScale }}>
-              <div
-                ref={bracketRef}
-                className="w-fit origin-top-left"
-                style={{ transform: `scale(${bracketScale})` }}
-              >
+              <div className="w-fit origin-top-left" style={{ transform: `scale(${bracketScale})` }}>
                 <BracketGrid rounds={rounds} onPickWinner={handlePickWinner} />
               </div>
             </div>
