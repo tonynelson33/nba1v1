@@ -87,6 +87,7 @@
       "brandon-miller-cha",
       "christian-anderson-cha",
       "coby-white-cha",
+      "dennis-schroder-cha",
       "dorian-finney-smith-cha",
       "grant-williams-cha",
       "grayson-allen-cha",
@@ -102,7 +103,6 @@
       "ryan-kalkbrenner-cha",
       "sion-james-cha",
       "tidjane-salaun-cha",
-      "tre-mann-cha",
       "xavier-tillman-cha"
     ],
     "defaultPickId": "brandon-miller-cha"
@@ -127,14 +127,14 @@
       "tre-jones-chi",
       "zach-collins-chi"
     ],
-    "defaultPickId": "norman-powell-chi"
+    "defaultPickId": "josh-giddey-chi"
   },
   {
     "teamName": "Cleveland Cavaliers",
     "abbr": "CLE",
     "rosterIds": [
+      "cam-whitmore-cle",
       "craig-porter-jr-cle",
-      "dennis-schroder-cle",
       "donovan-mitchell-cle",
       "ernest-udeh-jr-cle",
       "evan-mobley-cle",
@@ -142,9 +142,9 @@
       "jarrett-allen-cle",
       "jaylon-tyson-cle",
       "mario-hezonja-cle",
-      "max-strus-cle",
       "meleek-thomas-cle",
       "nae-qwan-tomlin-cle",
+      "peyton-watson-cle",
       "riley-minix-cle",
       "sam-merrill-cle",
       "thomas-bryant-cle",
@@ -179,7 +179,7 @@
       "tobi-lawal-dal",
       "zaccharie-risacher-dal"
     ],
-    "defaultPickId": "kyrie-irving-dal"
+    "defaultPickId": "cooper-flagg-dal"
   },
   {
     "teamName": "Denver Nuggets",
@@ -193,11 +193,11 @@
       "daron-holmes-ii-den",
       "david-roddy-den",
       "jamal-murray-den",
+      "julian-reese-den",
       "julian-strawther-den",
       "kj-simpson-den",
       "marvin-bagley-iii-den",
       "nikola-jokic-den",
-      "peyton-watson-den",
       "spencer-jones-den",
       "trevon-brazile-den",
       "tyus-jones-den",
@@ -276,6 +276,7 @@
       "oscar-tshiebwe-hou",
       "quadir-copeland-hou",
       "reed-sheppard-hou",
+      "sean-pedulla-hou",
       "steven-adams-hou",
       "tari-eason-hou",
       "tristen-newton-hou"
@@ -326,6 +327,7 @@
       "keaton-wagler-lac",
       "kobe-sanders-lac",
       "kris-dunn-lac",
+      "max-strus-lac",
       "nick-martinelli-lac",
       "nicolas-batum-lac",
       "norchad-omier-lac",
@@ -388,7 +390,7 @@
       "walter-clayton-jr-mem",
       "zach-edey-mem"
     ],
-    "defaultPickId": "ty-jerome-mem"
+    "defaultPickId": "jerami-grant-mem"
   },
   {
     "teamName": "Miami Heat",
@@ -478,7 +480,6 @@
       "dejounte-murray-nop",
       "derik-queen-nop",
       "herbert-jones-nop",
-      "hunter-dickinson-nop",
       "jaron-pierre-jr-nop",
       "jeremiah-fears-nop",
       "jordan-hawkins-nop",
@@ -487,11 +488,12 @@
       "kobe-bufkin-nop",
       "micah-peavy-nop",
       "saddiq-bey-nop",
+      "trendon-watford-nop",
       "trey-murphy-iii-nop",
       "yves-missi-nop",
       "zion-williamson-nop"
     ],
-    "defaultPickId": "zion-williamson-nop"
+    "defaultPickId": "trey-murphy-iii-nop"
   },
   {
     "teamName": "New York Knicks",
@@ -585,12 +587,11 @@
       "lebron-james-phi",
       "marjon-beauchamp-phi",
       "rayan-rupert-phi",
-      "trendon-watford-phi",
       "tyrese-martin-phi",
       "tyrese-maxey-phi",
       "vj-edgecombe-phi"
     ],
-    "defaultPickId": "jaylen-brown-phi"
+    "defaultPickId": "tyrese-maxey-phi"
   },
   {
     "teamName": "Phoenix Suns",
@@ -601,6 +602,7 @@
       "collin-gillespie-phx",
       "devin-booker-phx",
       "dillon-brooks-phx",
+      "haywood-highsmith-phx",
       "isaiah-livers-phx",
       "jalen-green-phx",
       "jamaree-bouyea-phx",
@@ -641,7 +643,7 @@
       "vit-krejci-por",
       "yang-hansen-por"
     ],
-    "defaultPickId": "damian-lillard-por"
+    "defaultPickId": "deni-avdija-por"
   },
   {
     "teamName": "Sacramento Kings",
@@ -653,19 +655,14 @@
       "darius-acuff-jr-sac",
       "de-andre-hunter-sac",
       "domantas-sabonis-sac",
-      "doug-mcdermott-sac",
-      "drew-eubanks-sac",
       "dylan-cardwell-sac",
       "emanuel-sharp-sac",
       "jonathan-mogbo-sac",
       "keegan-murray-sac",
-      "killian-hayes-sac",
       "malik-monk-sac",
       "maxime-raynaud-sac",
       "nique-clifford-sac",
-      "patrick-baldwin-jr-sac",
       "precious-achiuwa-sac",
-      "russell-westbrook-sac",
       "zach-lavine-sac"
     ],
     "defaultPickId": "domantas-sabonis-sac"
@@ -714,6 +711,7 @@
       "jamal-shead-tor",
       "jamison-battle-tor",
       "kyle-anderson-tor",
+      "malachi-smith-tor",
       "nate-bittle-tor",
       "rj-barrett-tor",
       "scottie-barnes-tor",
@@ -749,7 +747,7 @@
       "tamar-bates-uta",
       "trey-alexander-uta"
     ],
-    "defaultPickId": "keyonte-george-uta"
+    "defaultPickId": "jaren-jackson-jr-uta"
   },
   {
     "teamName": "Washington Wizards",
@@ -761,17 +759,16 @@
       "anthony-gill-was",
       "bilal-coulibaly-was",
       "bub-carrington-was",
-      "cam-whitmore-was",
       "deandre-ayton-was",
       "felix-okpara-was",
       "jamir-watkins-was",
-      "julian-reese-was",
       "justin-champagnie-was",
       "khris-middleton-was",
       "kyshawn-george-was",
       "sharife-cooper-was",
       "trae-young-was",
       "tre-johnson-was",
+      "tre-mann-was",
       "tristan-vukcevic-was",
       "will-riley-was"
     ],
