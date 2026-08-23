@@ -285,7 +285,7 @@ export function BracketApp({
 
         <RulesSection />
 
-        <footer className="mt-10 text-center text-xs text-zinc-600">
+        <footer className="mt-10 text-center text-xs text-white">
           A concept for a real 1-on-1 tournament. Team colors shown for reference; not affiliated
           with or endorsed by the NBA.
         </footer>

@@ -10,12 +10,14 @@ function PlayerRow({
   disabled,
   onClick,
   badge,
+  showWinnerCrown,
 }: {
   player: SeededPlayer | null;
   isWinner: boolean;
   disabled: boolean;
   onClick: () => void;
   badge?: string;
+  showWinnerCrown: boolean;
 }) {
   if (!player) {
     return (
@@ -40,7 +42,9 @@ function PlayerRow({
       <span className="flex items-center gap-2">
         <RatingBadge overall={player.overall} size="sm" />
         <span className="flex-1 truncate font-semibold">{player.name}</span>
-        {isWinner && <CrownIcon strokeWidth={4} className="h-3 w-5 shrink-0 text-amber-400" />}
+        {isWinner && showWinnerCrown && (
+          <CrownIcon strokeWidth={4} className="h-3 w-5 shrink-0 text-amber-400" />
+        )}
       </span>
       {badge && (
         <span className="w-fit shrink-0 rounded bg-court-red px-1.5 py-0.5 text-[10px] font-extrabold text-white">
@@ -56,6 +60,7 @@ export function MatchupCard({
   onPickWinner,
   badge,
   badgeMode = "winner",
+  showWinnerCrown = false,
 }: {
   matchup: Matchup;
   onPickWinner: (matchupId: string, playerId: string) => void;
@@ -63,6 +68,9 @@ export function MatchupCard({
   /** "always": both entrants already earned the badge (e.g. pod champs reaching the Semifinal).
    *  "winner": only the decided winner of this matchup earns the badge (e.g. the Champion). */
   badgeMode?: "always" | "winner";
+  /** Only the Position Final column should pass true — that's a region championship, not
+   *  just any decided game. */
+  showWinnerCrown?: boolean;
 }) {
   const canPick = Boolean(matchup.a && matchup.b);
   const showBadge = (player: SeededPlayer | null) =>
@@ -78,6 +86,7 @@ export function MatchupCard({
         disabled={!canPick}
         onClick={() => matchup.a && onPickWinner(matchup.id, matchup.a.id)}
         badge={showBadge(matchup.a)}
+        showWinnerCrown={showWinnerCrown}
       />
       <PlayerRow
         player={matchup.b}
@@ -85,6 +94,7 @@ export function MatchupCard({
         disabled={!canPick}
         onClick={() => matchup.b && onPickWinner(matchup.id, matchup.b.id)}
         badge={showBadge(matchup.b)}
+        showWinnerCrown={showWinnerCrown}
       />
     </div>
   );

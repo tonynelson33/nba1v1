@@ -8,27 +8,25 @@ type RegionName = "Bigs" | "Forwards" | "Wings" | "Guards";
 
 const REGION_ORDER: RegionName[] = ["Bigs", "Forwards", "Wings", "Guards"];
 
-// `divider` is deliberately the same gold for all 4 regions (matches the Overall Champion
-// box), unlike `banner`/`text` which stay region-specific.
 const REGION_STYLES: Record<RegionName, { banner: string; divider: string; text: string }> = {
   Bigs: {
     banner: "border-sky-400/50 bg-sky-500/15 text-sky-300",
-    divider: "border-amber-400/60",
+    divider: "border-sky-500/40",
     text: "text-sky-300",
   },
   Forwards: {
     banner: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
-    divider: "border-amber-400/60",
+    divider: "border-emerald-500/40",
     text: "text-emerald-300",
   },
   Wings: {
     banner: "border-purple-400/50 bg-purple-500/15 text-purple-300",
-    divider: "border-amber-400/60",
+    divider: "border-purple-500/40",
     text: "text-purple-300",
   },
   Guards: {
     banner: "border-rose-400/50 bg-rose-500/15 text-rose-300",
-    divider: "border-amber-400/60",
+    divider: "border-rose-500/40",
     text: "text-rose-300",
   },
 };
@@ -41,6 +39,7 @@ function Column({
   badgeMode,
   dividerClass,
   dividerSide = "left",
+  showWinnerCrown = false,
 }: {
   title: string;
   matchups: Matchup[];
@@ -49,6 +48,9 @@ function Column({
   badgeMode?: "always" | "winner";
   dividerClass?: string;
   dividerSide?: "left" | "right";
+  /** Only the Position Final column shows a crown on the winning row — round-of-32/16 and
+   *  the semifinals stay crown-free so it reads as "region champion," not just "won a game." */
+  showWinnerCrown?: boolean;
 }) {
   const borderClass = dividerClass
     ? dividerSide === "left"
@@ -68,6 +70,7 @@ function Column({
             onPickWinner={onPickWinner}
             badge={badge}
             badgeMode={badgeMode}
+            showWinnerCrown={showWinnerCrown}
           />
         ))}
       </div>
@@ -120,6 +123,7 @@ function Region({
       badgeMode="winner"
       dividerClass={style.divider}
       dividerSide={dividerSide}
+      showWinnerCrown
     />
   );
 
@@ -255,7 +259,7 @@ export function BracketGrid({
         <div className="flex items-stretch gap-4">
           <RegionStack top={regions.Bigs} bottom={regions.Forwards} onPickWinner={onPickWinner} />
 
-          <div className="flex w-44 shrink-0 flex-col border-l-2 border-zinc-700/60 pl-3">
+          <div className="flex w-44 shrink-0 flex-col border-l-2 border-amber-400/60 pl-3">
             <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               Semifinal · Bigs v Forwards
             </div>
@@ -264,21 +268,22 @@ export function BracketGrid({
             </div>
           </div>
 
-          <div className="flex w-52 shrink-0 flex-col items-center border-l-2 border-zinc-700/60 pl-3">
+          <div className="flex w-52 shrink-0 flex-col items-center border-l-2 border-amber-400/60 pl-3">
             <div className="mb-1.5 text-center text-[10px] font-black uppercase tracking-widest text-zinc-300">
               Final · Champion
             </div>
             <div className="flex flex-1 flex-col items-center justify-center gap-3">
               <MatchupCard matchup={championMatch} onPickWinner={onPickWinner} />
-              <div className="w-full rounded-lg border-2 border-court-red/60 bg-gradient-to-b from-court-red/20 to-transparent p-3 text-center shadow-[0_0_30px_-8px_rgba(200,16,46,0.5)]">
-                <div className="text-[10px] uppercase tracking-widest text-court-red-light">
+              <div className="w-full rounded-lg border-2 border-amber-400/60 bg-gradient-to-b from-amber-500/20 to-transparent p-3 text-center shadow-[0_0_30px_-8px_rgba(217,164,6,0.5)]">
+                <div className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-widest text-amber-400">
+                  <CrownIcon strokeWidth={4} className="h-2.5 w-4" />
                   King of the Court
                 </div>
-                <div className="mt-1 text-base font-extrabold text-white">
-                  {champion ? `👑 ${champion.name}` : "TBD"}
+                <div className="mt-1 text-base font-extrabold text-amber-200">
+                  {champion ? champion.name : "TBD"}
                 </div>
                 {champion && (
-                  <div className="mt-1 inline-block rounded bg-court-red px-2 py-0.5 text-xs font-extrabold text-white">
+                  <div className="mt-1 inline-block rounded bg-amber-400 px-2 py-0.5 text-xs font-extrabold text-zinc-950">
                     $5,000,000
                   </div>
                 )}
@@ -286,7 +291,7 @@ export function BracketGrid({
             </div>
           </div>
 
-          <div className="flex w-44 shrink-0 flex-col border-l-2 border-r-2 border-zinc-700/60 pl-3 pr-3">
+          <div className="flex w-44 shrink-0 flex-col border-l-2 border-r-2 border-amber-400/60 pl-3 pr-3">
             <div className="mb-1.5 text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               Semifinal · Wings v Guards
             </div>
