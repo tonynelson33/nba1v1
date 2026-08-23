@@ -2,27 +2,32 @@
 
 import type { Matchup, Round } from "@/lib/types";
 import { MatchupCard } from "./MatchupCard";
+import { CrownIcon } from "./CrownIcon";
 
 type RegionName = "Bigs" | "Forwards" | "Wings" | "Guards";
 
 const REGION_ORDER: RegionName[] = ["Bigs", "Forwards", "Wings", "Guards"];
 
-const REGION_STYLES: Record<RegionName, { banner: string; divider: string }> = {
+const REGION_STYLES: Record<RegionName, { banner: string; divider: string; text: string }> = {
   Bigs: {
     banner: "border-sky-400/50 bg-sky-500/15 text-sky-300",
     divider: "border-sky-500/40",
+    text: "text-sky-300",
   },
   Forwards: {
     banner: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
     divider: "border-emerald-500/40",
+    text: "text-emerald-300",
   },
   Wings: {
     banner: "border-purple-400/50 bg-purple-500/15 text-purple-300",
     divider: "border-purple-500/40",
+    text: "text-purple-300",
   },
   Guards: {
     banner: "border-rose-400/50 bg-rose-500/15 text-rose-300",
     divider: "border-rose-500/40",
+    text: "text-rose-300",
   },
 };
 
@@ -162,26 +167,29 @@ function RegionStack({
 }
 
 function PrizeStat({
-  emoji,
   label,
   amount,
   sublabel,
 }: {
-  emoji: string;
   label: string;
   amount: string;
   sublabel: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-500/15 to-transparent px-4 py-2">
-      <span className="text-2xl sm:text-3xl">{emoji}</span>
-      <div className="text-left">
-        <div className="text-xs font-bold uppercase tracking-widest text-zinc-300 sm:text-sm">
+    <div className="mx-auto flex w-full max-w-[420px] flex-col items-center gap-2 rounded-lg border-2 border-amber-500/40 bg-gradient-to-b from-amber-500/15 to-transparent px-6 py-5 sm:max-w-[480px]">
+      <div className="flex items-center gap-3">
+        <CrownIcon strokeWidth={4} className="h-4 w-6 text-amber-400 sm:h-5 sm:w-8" />
+        <div className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-200 sm:text-sm">
           {label}
         </div>
-        <div className="text-xl font-black text-amber-300 sm:text-2xl">{amount}</div>
-        <div className="text-[11px] text-zinc-400 sm:text-xs">{sublabel}</div>
       </div>
+      <div
+        className="text-3xl text-amber-300 sm:text-4xl"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        {amount}
+      </div>
+      <div className="text-xs text-zinc-400 sm:text-sm">{sublabel}</div>
     </div>
   );
 }
@@ -189,9 +197,16 @@ function PrizeStat({
 function RegionPrizeStat({ name }: { name: RegionName }) {
   const style = REGION_STYLES[name];
   return (
-    <div className={`min-w-[100px] flex-1 rounded-lg border px-2 py-1.5 text-center ${style.banner}`}>
-      <div className="text-[10px] font-black uppercase tracking-widest">{name}</div>
-      <div className="text-base font-black sm:text-lg">$1,000,000</div>
+    <div className="min-w-[100px] flex-1 rounded-md border border-white/15 bg-white/[0.03] px-2 py-3 text-center sm:px-3 sm:py-4">
+      <div className={`text-[10px] font-bold uppercase tracking-[0.2em] sm:text-xs ${style.text}`}>
+        {name}
+      </div>
+      <div
+        className={`mt-1 text-lg sm:text-xl ${style.text}`}
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        $1,000,000
+      </div>
     </div>
   );
 }
@@ -201,15 +216,13 @@ function RegionPrizeStat({ name }: { name: RegionName }) {
  *  BracketApp.tsx) while keeping it inline above the grid on desktop. */
 export function BracketPrizes() {
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex w-full max-w-[900px] flex-col items-center gap-3 px-2">
+      <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
         {REGION_ORDER.map((name) => (
           <RegionPrizeStat key={name} name={name} />
         ))}
       </div>
-      <div className="mt-2 flex justify-center">
-        <PrizeStat emoji="👑" label="Overall Champion" amount="$5,000,000" sublabel="King of the Court" />
-      </div>
+      <PrizeStat label="Overall Champion" amount="$5,000,000" sublabel="King of the Court" />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { BracketPrizes, BracketGrid } from "./Bracket";
 import { RulesSection } from "./RulesSection";
 import { CollapsibleSection } from "./CollapsibleSection";
 import { CourtBackdrop } from "./CourtBackdrop";
+import { CrownIcon } from "./CrownIcon";
 
 const WILDCARD_SLOTS = [
   { slotId: "WC1", label: "Wild Card" },
@@ -143,24 +144,32 @@ export function BracketApp({
       <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
         <header className="relative mb-5 text-center">
           <CourtBackdrop />
-          <div className="text-2xl font-black uppercase tracking-[0.2em] text-court-red sm:text-3xl">
-            🏀 NBA 1<span className="normal-case">v</span>1 Tournament 🏀
+          <div className="flex items-center justify-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-100 sm:text-sm">
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-white/40 sm:w-24" />
+            NBA 1<span className="normal-case">v</span>1 Tournament
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-white/40 sm:w-24" />
+          </div>
+          <div className="mt-4 flex justify-center">
+            <CrownIcon className="h-6 w-10 text-court-red sm:h-8 sm:w-12" />
           </div>
           <h1
-            className="mt-2 flex items-center justify-center gap-3 text-5xl tracking-wide text-zinc-50 sm:text-6xl"
+            className="mt-2 text-5xl uppercase tracking-wide text-court-red sm:text-6xl md:text-7xl"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            <span>King of the Court</span>
-            <span className="text-[0.9em] leading-none">👑</span>
+            King of the Court
           </h1>
-          <p className="mt-3 text-lg font-bold text-zinc-200 sm:text-2xl">
+          <p className="mt-3 text-lg font-bold uppercase tracking-widest text-zinc-100 sm:text-2xl">
             Build your bracket. Crown the King.
           </p>
-          <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
-            32 Players. 1 Player per Team. 2 Wild Cards.
-            <br />
-            Seeded Tallest to Shortest
-          </p>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
+            <span>32 Players</span>
+            <span className="text-zinc-600">/</span>
+            <span>1 per Team</span>
+            <span className="text-zinc-600">/</span>
+            <span>2 Wild Cards</span>
+            <span className="text-zinc-600">/</span>
+            <span>Seeded Tallest to Shortest</span>
+          </div>
         </header>
       </div>
 
