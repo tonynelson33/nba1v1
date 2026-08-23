@@ -17,9 +17,14 @@ const WILDCARD_SLOTS = [
 
 // The grid's fixed, non-responsive content size (see Column/semifinal/final widths in
 // Bracket.tsx) — used to compute how much to shrink it to fit whatever width is actually
-// available, on any screen, instead of a hardcoded per-breakpoint scale.
+// available, on any screen, instead of a hardcoded per-breakpoint scale. Must match the
+// grid's true rendered size (measured via getBoundingClientRect at natural/unscaled size)
+// or the reserved space for it here under/over-reports, and the page grows taller or wider
+// than it needs to — re-measure and update these if MatchupCard/Bracket styling changes
+// height or width (e.g. adding a border grew this from 942 to ~1000 after the royal-blue
+// theme added border-2 to every matchup row).
 const BRACKET_WIDTH = 1660;
-const BRACKET_HEIGHT = 942;
+const BRACKET_HEIGHT = 1000;
 
 export function BracketApp({
   teams,
