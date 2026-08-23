@@ -146,7 +146,12 @@ export function BracketApp({
           <CourtBackdrop />
           <div className="flex items-center justify-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-100 sm:text-sm">
             <span className="h-px w-12 bg-gradient-to-r from-transparent to-white/40 sm:w-24" />
-            NBA 1<span className="normal-case">v</span>1 Tournament
+            {/* Wrapped in its own span so it's a single flex item — mixing bare text with an
+                inline element as direct children of a flex container makes each text fragment
+                its own anonymous flex item too, so `gap-4` was landing *inside* "1v1". */}
+            <span>
+              NBA 1<span className="normal-case">v</span>1 Tournament
+            </span>
             <span className="h-px w-12 bg-gradient-to-l from-transparent to-white/40 sm:w-24" />
           </div>
           <div className="mt-4 flex justify-center">

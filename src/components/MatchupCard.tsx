@@ -2,6 +2,7 @@
 
 import type { Matchup, SeededPlayer } from "@/lib/types";
 import { RatingBadge } from "./RatingBadge";
+import { CrownIcon } from "./CrownIcon";
 
 function PlayerRow({
   player,
@@ -31,7 +32,7 @@ function PlayerRow({
       onClick={onClick}
       className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md border-2 px-2 py-1.5 text-left text-sm transition ${
         isWinner
-          ? "border-court-red bg-court-red/20 text-white"
+          ? "border-green-500 bg-green-500/20 text-white"
           : "border-transparent bg-royal-surface/70 text-zinc-50 hover:bg-royal-surface/90"
       } ${disabled ? "cursor-default opacity-80" : "cursor-pointer"}`}
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
@@ -39,6 +40,7 @@ function PlayerRow({
       <span className="flex items-center gap-2">
         <RatingBadge overall={player.overall} size="sm" />
         <span className="flex-1 truncate font-semibold">{player.name}</span>
+        {isWinner && <CrownIcon strokeWidth={4} className="h-3 w-5 shrink-0 text-amber-400" />}
       </span>
       {badge && (
         <span className="w-fit shrink-0 rounded bg-court-red px-1.5 py-0.5 text-[10px] font-extrabold text-white">

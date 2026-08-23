@@ -8,25 +8,27 @@ type RegionName = "Bigs" | "Forwards" | "Wings" | "Guards";
 
 const REGION_ORDER: RegionName[] = ["Bigs", "Forwards", "Wings", "Guards"];
 
+// `divider` is deliberately the same gold for all 4 regions (matches the Overall Champion
+// box), unlike `banner`/`text` which stay region-specific.
 const REGION_STYLES: Record<RegionName, { banner: string; divider: string; text: string }> = {
   Bigs: {
     banner: "border-sky-400/50 bg-sky-500/15 text-sky-300",
-    divider: "border-sky-500/40",
+    divider: "border-amber-400/60",
     text: "text-sky-300",
   },
   Forwards: {
     banner: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
-    divider: "border-emerald-500/40",
+    divider: "border-amber-400/60",
     text: "text-emerald-300",
   },
   Wings: {
     banner: "border-purple-400/50 bg-purple-500/15 text-purple-300",
-    divider: "border-purple-500/40",
+    divider: "border-amber-400/60",
     text: "text-purple-300",
   },
   Guards: {
     banner: "border-rose-400/50 bg-rose-500/15 text-rose-300",
-    divider: "border-rose-500/40",
+    divider: "border-amber-400/60",
     text: "text-rose-300",
   },
 };
@@ -249,7 +251,7 @@ export function BracketGrid({
     (championMatch.a?.id === championMatch.winnerId ? championMatch.a : championMatch.b);
 
   return (
-      <div className="w-fit rounded-xl border-2 border-royal/40 bg-royal-surface/70 p-3 shadow-[0_0_40px_-14px_rgba(200,16,46,0.15)]">
+      <div className="w-fit rounded-xl border-2 border-white/40 bg-royal-surface/70 p-3 shadow-[0_0_40px_-14px_rgba(200,16,46,0.15)]">
         <div className="flex items-stretch gap-4">
           <RegionStack top={regions.Bigs} bottom={regions.Forwards} onPickWinner={onPickWinner} />
 
