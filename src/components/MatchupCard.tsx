@@ -10,6 +10,7 @@ function PlayerRow({
   disabled,
   onClick,
   badge,
+  badgeColorClass,
   showWinnerCrown,
 }: {
   player: SeededPlayer | null;
@@ -17,6 +18,7 @@ function PlayerRow({
   disabled: boolean;
   onClick: () => void;
   badge?: string;
+  badgeColorClass: string;
   showWinnerCrown: boolean;
 }) {
   if (!player) {
@@ -47,7 +49,9 @@ function PlayerRow({
         )}
       </span>
       {badge && (
-        <span className="w-fit shrink-0 rounded bg-court-red px-1.5 py-0.5 text-[10px] font-extrabold text-white">
+        <span
+          className={`w-fit shrink-0 rounded ${badgeColorClass} px-1.5 py-0.5 text-[10px] font-extrabold text-white`}
+        >
           {badge}
         </span>
       )}
@@ -60,6 +64,7 @@ export function MatchupCard({
   onPickWinner,
   badge,
   badgeMode = "winner",
+  badgeColorClass = "bg-court-red",
   showWinnerCrown = false,
 }: {
   matchup: Matchup;
@@ -68,6 +73,8 @@ export function MatchupCard({
   /** "always": both entrants already earned the badge (e.g. pod champs reaching the Semifinal).
    *  "winner": only the decided winner of this matchup earns the badge (e.g. the Champion). */
   badgeMode?: "always" | "winner";
+  /** Background class for the badge pill (e.g. per-region color for Position Final). */
+  badgeColorClass?: string;
   /** Only the Position Final column should pass true — that's a region championship, not
    *  just any decided game. */
   showWinnerCrown?: boolean;
@@ -86,6 +93,7 @@ export function MatchupCard({
         disabled={!canPick}
         onClick={() => matchup.a && onPickWinner(matchup.id, matchup.a.id)}
         badge={showBadge(matchup.a)}
+        badgeColorClass={badgeColorClass}
         showWinnerCrown={showWinnerCrown}
       />
       <PlayerRow
@@ -94,6 +102,7 @@ export function MatchupCard({
         disabled={!canPick}
         onClick={() => matchup.b && onPickWinner(matchup.id, matchup.b.id)}
         badge={showBadge(matchup.b)}
+        badgeColorClass={badgeColorClass}
         showWinnerCrown={showWinnerCrown}
       />
     </div>

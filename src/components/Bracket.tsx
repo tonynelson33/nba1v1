@@ -8,26 +8,30 @@ type RegionName = "Bigs" | "Forwards" | "Wings" | "Guards";
 
 const REGION_ORDER: RegionName[] = ["Bigs", "Forwards", "Wings", "Guards"];
 
-const REGION_STYLES: Record<RegionName, { banner: string; divider: string; text: string }> = {
+const REGION_STYLES: Record<RegionName, { banner: string; divider: string; text: string; badgeBg: string }> = {
   Bigs: {
     banner: "border-sky-400/50 bg-sky-500/15 text-sky-300",
     divider: "border-sky-500/40",
     text: "text-sky-300",
+    badgeBg: "bg-sky-500",
   },
   Forwards: {
     banner: "border-emerald-400/50 bg-emerald-500/15 text-emerald-300",
     divider: "border-emerald-500/40",
     text: "text-emerald-300",
+    badgeBg: "bg-emerald-500",
   },
   Wings: {
     banner: "border-purple-400/50 bg-purple-500/15 text-purple-300",
     divider: "border-purple-500/40",
     text: "text-purple-300",
+    badgeBg: "bg-purple-500",
   },
   Guards: {
     banner: "border-rose-400/50 bg-rose-500/15 text-rose-300",
     divider: "border-rose-500/40",
     text: "text-rose-300",
+    badgeBg: "bg-rose-500",
   },
 };
 
@@ -37,6 +41,7 @@ function Column({
   onPickWinner,
   badge,
   badgeMode,
+  badgeColorClass,
   dividerClass,
   dividerSide = "left",
   showWinnerCrown = false,
@@ -46,6 +51,9 @@ function Column({
   onPickWinner: (matchupId: string, playerId: string) => void;
   badge?: string;
   badgeMode?: "always" | "winner";
+  /** Background class for the badge pill — lets the Position Final column color it per
+   *  region (blue/green/purple/red) instead of one fixed color everywhere. */
+  badgeColorClass?: string;
   dividerClass?: string;
   dividerSide?: "left" | "right";
   /** Only the Position Final column shows a crown on the winning row — round-of-32/16 and
@@ -70,6 +78,7 @@ function Column({
             onPickWinner={onPickWinner}
             badge={badge}
             badgeMode={badgeMode}
+            badgeColorClass={badgeColorClass}
             showWinnerCrown={showWinnerCrown}
           />
         ))}
@@ -121,6 +130,7 @@ function Region({
       onPickWinner={onPickWinner}
       badge="$1,000,000"
       badgeMode="winner"
+      badgeColorClass={style.badgeBg}
       dividerClass={style.divider}
       dividerSide={dividerSide}
       showWinnerCrown
