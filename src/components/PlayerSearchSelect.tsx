@@ -47,7 +47,7 @@ export function PlayerSearchSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 rounded border border-zinc-700 bg-zinc-900/80 px-2 py-1 text-left text-xs text-zinc-100 transition hover:border-zinc-500 focus:border-zinc-400 focus:outline-none sm:text-sm"
+        className="flex w-full items-center gap-1.5 rounded border border-royal/40 bg-royal-surface/80 px-2 py-1 text-left text-xs text-zinc-100 transition hover:border-royal focus:border-court-red-light focus:outline-none sm:text-sm"
       >
         {showTeamBadge && value && <TeamBadge abbr={value.teamAbbr} size="sm" />}
         {value && <RatingBadge overall={value.overall} size="sm" />}
@@ -58,14 +58,14 @@ export function PlayerSearchSelect({
       </button>
 
       {open && (
-        <div className="absolute z-30 mt-1 w-72 max-w-[90vw] overflow-hidden rounded-md border border-zinc-700 bg-zinc-900 shadow-xl">
+        <div className="absolute z-30 mt-1 w-72 max-w-[90vw] overflow-hidden rounded-md border border-royal/40 bg-royal-surface shadow-xl">
           {searchable && (
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Type a name…"
-              className="w-full border-b border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600"
+              className="w-full border-b border-royal/40 bg-royal-surface px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-500"
             />
           )}
           <ul className="max-h-64 overflow-y-auto py-1">
@@ -81,8 +81,8 @@ export function PlayerSearchSelect({
                     setOpen(false);
                     setQuery("");
                   }}
-                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm hover:bg-zinc-800 ${
-                    value?.id === p.id ? "bg-zinc-800 text-zinc-100" : "text-zinc-200"
+                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm hover:bg-royal/25 ${
+                    value?.id === p.id ? "bg-royal/25 text-zinc-100" : "text-zinc-200"
                   }`}
                 >
                   {showTeamBadge && <TeamBadge abbr={p.teamAbbr} size="sm" />}

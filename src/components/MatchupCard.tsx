@@ -2,6 +2,7 @@
 
 import type { Matchup, SeededPlayer } from "@/lib/types";
 import { RatingBadge } from "./RatingBadge";
+import { CrownIcon } from "./CrownIcon";
 
 function PlayerRow({
   player,
@@ -9,12 +10,16 @@ function PlayerRow({
   disabled,
   onClick,
   badge,
+  badgeColorClass,
+  showWinnerCrown,
 }: {
   player: SeededPlayer | null;
   isWinner: boolean;
   disabled: boolean;
   onClick: () => void;
   badge?: string;
+  badgeColorClass: string;
+  showWinnerCrown: boolean;
 }) {
   if (!player) {
     return (
@@ -29,19 +34,24 @@ function PlayerRow({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-sm transition ${
+      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md border-2 px-2 py-1.5 text-left text-sm transition ${
         isWinner
-          ? "bg-amber-500/25 text-amber-100 ring-2 ring-amber-400"
-          : "bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
+          ? "border-green-500 bg-green-500/20 text-white"
+          : "border-transparent bg-royal-surface/70 text-zinc-50 hover:bg-royal-surface/90"
       } ${disabled ? "cursor-default opacity-80" : "cursor-pointer"}`}
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
       <span className="flex items-center gap-2">
         <RatingBadge overall={player.overall} size="sm" />
         <span className="flex-1 truncate font-semibold">{player.name}</span>
+        {isWinner && showWinnerCrown && (
+          <CrownIcon strokeWidth={4} className="h-3 w-5 shrink-0 text-amber-400" />
+        )}
       </span>
       {badge && (
-        <span className="w-fit shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
+        <span
+          className={`w-fit shrink-0 rounded ${badgeColorClass} px-1.5 py-0.5 text-[10px] font-extrabold text-white`}
+        >
           {badge}
         </span>
       )}
@@ -54,6 +64,8 @@ export function MatchupCard({
   onPickWinner,
   badge,
   badgeMode = "winner",
+  badgeColorClass = "bg-court-red",
+  showWinnerCrown = false,
 }: {
   matchup: Matchup;
   onPickWinner: (matchupId: string, playerId: string) => void;
@@ -61,6 +73,11 @@ export function MatchupCard({
   /** "always": both entrants already earned the badge (e.g. pod champs reaching the Semifinal).
    *  "winner": only the decided winner of this matchup earns the badge (e.g. the Champion). */
   badgeMode?: "always" | "winner";
+  /** Background class for the badge pill (e.g. per-region color for Position Final). */
+  badgeColorClass?: string;
+  /** Only the Position Final column should pass true — that's a region championship, not
+   *  just any decided game. */
+  showWinnerCrown?: boolean;
 }) {
   const canPick = Boolean(matchup.a && matchup.b);
   const showBadge = (player: SeededPlayer | null) =>
@@ -69,13 +86,15 @@ export function MatchupCard({
       : undefined;
 
   return (
-    <div className="my-1.5 rounded-lg border border-zinc-700 bg-zinc-950/70 p-1 space-y-1">
+    <div className="my-1.5 rounded-lg border border-royal/30 border-l-2 border-l-court-red-deep bg-royal-surface/50 p-1 space-y-1">
       <PlayerRow
         player={matchup.a}
         isWinner={matchup.winnerId === matchup.a?.id}
         disabled={!canPick}
         onClick={() => matchup.a && onPickWinner(matchup.id, matchup.a.id)}
         badge={showBadge(matchup.a)}
+        badgeColorClass={badgeColorClass}
+        showWinnerCrown={showWinnerCrown}
       />
       <PlayerRow
         player={matchup.b}
@@ -83,6 +102,8 @@ export function MatchupCard({
         disabled={!canPick}
         onClick={() => matchup.b && onPickWinner(matchup.id, matchup.b.id)}
         badge={showBadge(matchup.b)}
+        badgeColorClass={badgeColorClass}
+        showWinnerCrown={showWinnerCrown}
       />
     </div>
   );

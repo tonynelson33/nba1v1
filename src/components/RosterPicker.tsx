@@ -42,7 +42,7 @@ export function RosterPicker({
         return (
           <div
             key={team.abbr}
-            className="flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900/40 p-1"
+            className="flex items-center gap-1.5 rounded-md border border-royal/25 bg-royal-surface/35 p-1"
           >
             <TeamBadge abbr={team.abbr} size="sm" />
             <div className="min-w-0 flex-1">
@@ -68,7 +68,7 @@ export function RosterPicker({
         return (
           <div
             key={slot.slotId}
-            className="flex items-center gap-1.5 rounded-md border border-amber-700/40 bg-amber-500/5 p-1"
+            className="flex items-center gap-1.5 rounded-md border border-court-red/40 bg-court-red/5 p-1"
           >
             <TeamBadge abbr={null} size="sm" />
             <div className="min-w-0 flex-1">

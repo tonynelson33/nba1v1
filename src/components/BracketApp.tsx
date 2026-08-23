@@ -9,6 +9,7 @@ import { BracketPrizes, BracketGrid } from "./Bracket";
 import { RulesSection } from "./RulesSection";
 import { CollapsibleSection } from "./CollapsibleSection";
 import { CourtBackdrop } from "./CourtBackdrop";
+import { CrownIcon } from "./CrownIcon";
 
 const WILDCARD_SLOTS = [
   { slotId: "WC1", label: "Wild Card" },
@@ -17,9 +18,14 @@ const WILDCARD_SLOTS = [
 
 // The grid's fixed, non-responsive content size (see Column/semifinal/final widths in
 // Bracket.tsx) — used to compute how much to shrink it to fit whatever width is actually
-// available, on any screen, instead of a hardcoded per-breakpoint scale.
+// available, on any screen, instead of a hardcoded per-breakpoint scale. Must match the
+// grid's true rendered size (measured via getBoundingClientRect at natural/unscaled size)
+// or the reserved space for it here under/over-reports, and the page grows taller or wider
+// than it needs to — re-measure and update these if MatchupCard/Bracket styling changes
+// height or width (e.g. adding a border grew this from 942 to ~1000 after the royal-blue
+// theme added border-2 to every matchup row).
 const BRACKET_WIDTH = 1660;
-const BRACKET_HEIGHT = 942;
+const BRACKET_HEIGHT = 1000;
 
 export function BracketApp({
   teams,
@@ -138,24 +144,37 @@ export function BracketApp({
       <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
         <header className="relative mb-5 text-center">
           <CourtBackdrop />
-          <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
-            🏀 NBA 1<span className="normal-case">v</span>1 Tournament 🏀
+          <div className="flex items-center justify-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-zinc-100 sm:text-sm">
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-white/40 sm:w-24" />
+            {/* Wrapped in its own span so it's a single flex item — mixing bare text with an
+                inline element as direct children of a flex container makes each text fragment
+                its own anonymous flex item too, so `gap-4` was landing *inside* "1v1". */}
+            <span>
+              NBA 1<span className="normal-case">v</span>1 Tournament
+            </span>
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-white/40 sm:w-24" />
+          </div>
+          <div className="mt-4 flex justify-center">
+            <CrownIcon className="h-6 w-10 text-court-red sm:h-8 sm:w-12" />
           </div>
           <h1
-            className="mt-2 flex items-center justify-center gap-3 text-5xl tracking-wide text-zinc-50 sm:text-6xl"
+            className="mt-2 text-5xl uppercase tracking-wide text-court-red sm:text-6xl md:text-7xl"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            <span>King of the Court</span>
-            <span className="text-[0.9em] leading-none">👑</span>
+            King of the Court
           </h1>
-          <p className="mt-3 text-lg font-bold text-zinc-200 sm:text-2xl">
+          <p className="mt-3 text-lg font-bold uppercase tracking-widest text-zinc-100 sm:text-2xl">
             Build your bracket. Crown the King.
           </p>
-          <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
-            32 Players. 1 Player per Team. 2 Wild Cards.
-            <br />
-            Seeded Tallest to Shortest
-          </p>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-widest text-zinc-400 sm:text-sm">
+            <span>32 Players</span>
+            <span className="text-zinc-600">/</span>
+            <span>1 per Team</span>
+            <span className="text-zinc-600">/</span>
+            <span>2 Wild Cards</span>
+            <span className="text-zinc-600">/</span>
+            <span>Seeded Tallest to Shortest</span>
+          </div>
         </header>
       </div>
 
@@ -228,7 +247,7 @@ export function BracketApp({
             </div>
           </div>
         ) : (
-          <div className="mx-auto max-w-[1500px] rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center text-sm text-zinc-400">
+          <div className="mx-auto max-w-[1500px] rounded-xl border border-royal/30 bg-royal-surface/60 p-8 text-center text-sm text-zinc-400">
             Fill all 32 roster slots below to unlock the bracket.
           </div>
         )}
@@ -266,7 +285,7 @@ export function BracketApp({
 
         <RulesSection />
 
-        <footer className="mt-10 text-center text-xs text-zinc-600">
+        <footer className="mt-10 text-center text-xs text-white">
           A concept for a real 1-on-1 tournament. Team colors shown for reference; not affiliated
           with or endorsed by the NBA.
         </footer>
