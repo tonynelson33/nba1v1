@@ -173,13 +173,13 @@ function PrizeStat({
   sublabel: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border-2 border-court-red/40 bg-gradient-to-b from-court-red/15 to-transparent px-4 py-2">
+    <div className="flex items-center gap-3 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-500/15 to-transparent px-4 py-2">
       <span className="text-2xl sm:text-3xl">{emoji}</span>
       <div className="text-left">
         <div className="text-xs font-bold uppercase tracking-widest text-zinc-300 sm:text-sm">
           {label}
         </div>
-        <div className="text-xl font-black text-court-red-light sm:text-2xl">{amount}</div>
+        <div className="text-xl font-black text-amber-300 sm:text-2xl">{amount}</div>
         <div className="text-[11px] text-zinc-400 sm:text-xs">{sublabel}</div>
       </div>
     </div>

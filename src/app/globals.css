@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b1330;
+  --background: #1d428a;
   --foreground: #f2f5ff;
 }
 
@@ -22,32 +22,22 @@
 }
 
 body {
-  /* Royal blue at the top fading to a near-black base, with a red glow rising from the
-     bottom on its own layer — red and blue are never blended directly (that would muddy
-     toward purple); the glow instead sits over the already-dark base color. */
+  /* Flat royal blue, same color top to bottom — no gradient, no fixed-position overlay
+     (a fixed pseudo-element was tried here and dropped: this plain layered-background
+     approach, same structure as the original theme, is what scrolling depends on
+     behaving normally). The faint diagonal texture is just a second background layer
+     on body itself, so it scrolls with the page exactly like any other background. */
   background:
-    radial-gradient(ellipse 70% 45% at 50% 100%, rgba(200, 16, 46, 0.3), transparent 70%),
-    linear-gradient(180deg, #1d428a 0%, #14224a 45%, #0b0e16 100%);
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 2px,
+      transparent 2px,
+      transparent 26px
+    ),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  position: relative;
-}
-
-body::before {
-  /* Faint diagonal hatching for texture — fixed so it doesn't scroll away, purely
-     decorative (pointer-events: none) and painted behind all real content. */
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.03) 0px,
-    rgba(255, 255, 255, 0.03) 2px,
-    transparent 2px,
-    transparent 26px
-  );
-  pointer-events: none;
-  z-index: -1;
 }
 
 ::-webkit-scrollbar {
