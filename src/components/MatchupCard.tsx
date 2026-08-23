@@ -29,10 +29,10 @@ function PlayerRow({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md px-2 py-1.5 text-left text-sm transition ${
+      className={`flex min-h-9 w-full flex-col justify-center gap-1 rounded-md border-2 px-2 py-1.5 text-left text-sm transition ${
         isWinner
-          ? "bg-amber-500/25 text-amber-100 ring-2 ring-amber-400"
-          : "bg-zinc-800/80 text-zinc-50 hover:bg-zinc-700"
+          ? "border-court-red bg-court-red/20 text-white"
+          : "border-transparent bg-royal-surface/70 text-zinc-50 hover:bg-royal-surface/90"
       } ${disabled ? "cursor-default opacity-80" : "cursor-pointer"}`}
       title={`${player.name} · ${player.heightLabel} · ${player.weightLb}lb · Seed ${player.seed}`}
     >
@@ -41,7 +41,7 @@ function PlayerRow({
         <span className="flex-1 truncate font-semibold">{player.name}</span>
       </span>
       {badge && (
-        <span className="w-fit shrink-0 rounded bg-amber-400 px-1.5 py-0.5 text-[10px] font-extrabold text-zinc-950">
+        <span className="w-fit shrink-0 rounded bg-court-red px-1.5 py-0.5 text-[10px] font-extrabold text-white">
           {badge}
         </span>
       )}
@@ -69,7 +69,7 @@ export function MatchupCard({
       : undefined;
 
   return (
-    <div className="my-1.5 rounded-lg border border-zinc-700 bg-zinc-950/70 p-1 space-y-1">
+    <div className="my-1.5 rounded-lg border border-royal/30 border-l-2 border-l-court-red-deep bg-royal-surface/50 p-1 space-y-1">
       <PlayerRow
         player={matchup.a}
         isWinner={matchup.winnerId === matchup.a?.id}

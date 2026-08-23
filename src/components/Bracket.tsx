@@ -173,13 +173,13 @@ function PrizeStat({
   sublabel: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-500/15 to-transparent px-4 py-2">
+    <div className="flex items-center gap-3 rounded-xl border-2 border-court-red/40 bg-gradient-to-b from-court-red/15 to-transparent px-4 py-2">
       <span className="text-2xl sm:text-3xl">{emoji}</span>
       <div className="text-left">
         <div className="text-xs font-bold uppercase tracking-widest text-zinc-300 sm:text-sm">
           {label}
         </div>
-        <div className="text-xl font-black text-amber-300 sm:text-2xl">{amount}</div>
+        <div className="text-xl font-black text-court-red-light sm:text-2xl">{amount}</div>
         <div className="text-[11px] text-zinc-400 sm:text-xs">{sublabel}</div>
       </div>
     </div>
@@ -236,7 +236,7 @@ export function BracketGrid({
     (championMatch.a?.id === championMatch.winnerId ? championMatch.a : championMatch.b);
 
   return (
-      <div className="w-fit rounded-xl border-2 border-zinc-700/60 bg-zinc-900/70 p-3 shadow-[0_0_40px_-14px_rgba(217,164,6,0.15)]">
+      <div className="w-fit rounded-xl border-2 border-royal/40 bg-royal-surface/70 p-3 shadow-[0_0_40px_-14px_rgba(200,16,46,0.15)]">
         <div className="flex items-stretch gap-4">
           <RegionStack top={regions.Bigs} bottom={regions.Forwards} onPickWinner={onPickWinner} />
 
@@ -255,15 +255,15 @@ export function BracketGrid({
             </div>
             <div className="flex flex-1 flex-col items-center justify-center gap-3">
               <MatchupCard matchup={championMatch} onPickWinner={onPickWinner} />
-              <div className="w-full rounded-lg border-2 border-amber-400/60 bg-gradient-to-b from-amber-500/20 to-transparent p-3 text-center shadow-[0_0_30px_-8px_rgba(217,164,6,0.5)]">
-                <div className="text-[10px] uppercase tracking-widest text-amber-400">
+              <div className="w-full rounded-lg border-2 border-court-red/60 bg-gradient-to-b from-court-red/20 to-transparent p-3 text-center shadow-[0_0_30px_-8px_rgba(200,16,46,0.5)]">
+                <div className="text-[10px] uppercase tracking-widest text-court-red-light">
                   King of the Court
                 </div>
-                <div className="mt-1 text-base font-extrabold text-amber-200">
+                <div className="mt-1 text-base font-extrabold text-white">
                   {champion ? `👑 ${champion.name}` : "TBD"}
                 </div>
                 {champion && (
-                  <div className="mt-1 inline-block rounded bg-amber-400 px-2 py-0.5 text-xs font-extrabold text-zinc-950">
+                  <div className="mt-1 inline-block rounded bg-court-red px-2 py-0.5 text-xs font-extrabold text-white">
                     $5,000,000
                   </div>
                 )}

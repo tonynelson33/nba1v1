@@ -138,7 +138,7 @@ export function BracketApp({
       <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
         <header className="relative mb-5 text-center">
           <CourtBackdrop />
-          <div className="text-2xl font-black uppercase tracking-[0.2em] text-amber-500 sm:text-3xl">
+          <div className="text-2xl font-black uppercase tracking-[0.2em] text-court-red sm:text-3xl">
             🏀 NBA 1<span className="normal-case">v</span>1 Tournament 🏀
           </div>
           <h1
@@ -228,7 +228,7 @@ export function BracketApp({
             </div>
           </div>
         ) : (
-          <div className="mx-auto max-w-[1500px] rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center text-sm text-zinc-400">
+          <div className="mx-auto max-w-[1500px] rounded-xl border border-royal/30 bg-royal-surface/60 p-8 text-center text-sm text-zinc-400">
             Fill all 32 roster slots below to unlock the bracket.
           </div>
         )}
