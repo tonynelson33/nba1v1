@@ -55,14 +55,12 @@ export function renderOgImage() {
         <div
           style={{
             marginTop: 16,
-            width: "100%",
             fontSize: 100,
             fontWeight: 900,
             letterSpacing: 1,
             textTransform: "uppercase",
             color: "#c8102e",
             lineHeight: 1.02,
-            textAlign: "center",
           }}
         >
           King of the Court
