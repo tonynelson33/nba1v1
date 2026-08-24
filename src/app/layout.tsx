@@ -18,9 +18,28 @@ const anton = Anton({
   weight: "400",
 });
 
+const title = "NBA1v1 — King of the Court";
+const description = "Build your bracket. Crown the King. A 32-player NBA 1-on-1 tournament bracket.";
+
 export const metadata: Metadata = {
-  title: "NBA1v1 — King of the Court",
-  description: "Build your bracket. Crown the King. A 32-player NBA 1-on-1 tournament bracket.",
+  // Required for Next to resolve the opengraph-image/twitter-image route conventions to
+  // absolute URLs in production — without it those <meta> tags end up with relative paths,
+  // which most link-preview crawlers won't follow.
+  metadataBase: new URL("https://nba1v1.vercel.app"),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "https://nba1v1.vercel.app",
+    siteName: title,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 // Explicit (not just Next's default) so pinch-zoom is guaranteed available — the bracket
